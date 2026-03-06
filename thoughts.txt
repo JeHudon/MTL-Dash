@@ -1,0 +1,3 @@
+Dashboard : next games, 
+Navbar : team (roaster and stats), Schedule complet 
+Utiliser paneau Avenue des Canadiens pour qlq chose
