@@ -1,4 +1,4 @@
-const BASE_URL = "https://api-web.nhle.com/v1";
+const BASE_URL = "/api";
 
 export async function getRoster() {
   const response = await fetch(`${BASE_URL}/club/MTL/roster/now`);
