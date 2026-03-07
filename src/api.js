@@ -1,12 +1,12 @@
 const BASE_URL = "/api";
 
 export async function getRoster() {
-  const response = await fetch(`${BASE_URL}/club/MTL/roster/now`);
+  const response = await fetch(`${BASE_URL}/roster/MTL/20252026`);
   return response.json();
 }
 
 export async function getSchedule() {
-  const response = await fetch(`${BASE_URL}/club-schedule/MTL/now`);
+  const response = await fetch(`${BASE_URL}/club-schedule/MTL/month/2026-03`);
   return response.json();
 }
 
@@ -14,3 +14,12 @@ export async function getScoreboard() {
   const response = await fetch(`${BASE_URL}/scoreboard/mtl/now`);
   return response.json();
 }
+
+export async function getStats() {
+  const response = await fetch(`${BASE_URL}/club-stats/MTL/20252026/2`);
+  return response.json();
+}
+
+// https://api-web.nhle.com/v1/club-stats-season/MTL : liste saisons disponibles
+// https://api-web.nhle.com/v1/club-schedule/MTL/month/2026-03 : schedule du mois de mars 2026 (par mois)
+// https://api-web.nhle.com/v1/standings/2026-03-06 : classement du 6 mars 2026 (par date)
