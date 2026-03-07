@@ -1,0 +1,71 @@
+/* Make all boxes the same height */
+.columns.is-multiline .box {
+    display: flex;
+    flex-direction: column; /* so content stacks vertically */
+    height: 100%; /* allow flex parent to control height */
+}
+
+.column.is-3 {
+    display: flex;
+}
+
+.column.is-3 .box {
+    flex: 1; /* all boxes grow equally inside column */
+}
+
+.game-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #efefef;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.team-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.team-row span.score {
+    margin-left: auto;
+    padding-right: 10px;
+}
+
+.team-row span.record {
+    margin-left: auto;
+    padding-right: 10px;
+    font-size: 0.75em;
+    font-weight: normal;
+}
+
+.tv-broadcast {
+    font-size: 0.8em;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.game-date {
+    font-weight: 600;
+    text-align: center;
+    min-width: 55px;
+    font-size: 0.9rem;
+}
+
+.game-info {
+    flex: 1;
+}
+
+.game-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
