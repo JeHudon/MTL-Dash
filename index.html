@@ -9,6 +9,7 @@
             rel="stylesheet"
             href="https://bulma.io/vendor/fontawesome-free-6.5.2-web/css/all.min.css"
         />
+        <link rel="stylesheet" href="index.css" />
     </head>
     <body>
         <nav
@@ -28,11 +29,25 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" style="font-size: 1.4em"> Home </a>
+                    <div class="navbar-item">
+                        <a class="nav-text">Home</a>
+                    </div>
 
-                    <a class="navbar-item" style="font-size: 1.4em"> Team </a>
+                    <div class="navbar-item">
+                        <a class="nav-text">Team</a>
+                    </div>
 
-                    <a class="navbar-item" style="font-size: 1.4em"> Stats </a>
+                    <div class="navbar-item">
+                        <a class="nav-text">Stats</a>
+                    </div>
+
+                    <div class="navbar-item">
+                        <a class="nav-text">Schedule</a>
+                    </div>
+
+                    <div class="navbar-item">
+                        <a class="nav-text">Standings</a>
+                    </div>
 
                     <!-- <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link"> More </a>
@@ -59,8 +74,9 @@
                 </div> -->
             </div>
         </nav>
-        <div class="image is-fullwidth">
-            <img src="Images/more2.png" alt="" />
+        <div class="is-fullwidth backsplash">
+            <img src="Images/more1.PNG" alt="" />
+            <div id="scoreboard"></div>
         </div>
         <div id="root"></div>
         <script type="module" src="/src/main.jsx"></script>

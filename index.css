@@ -1,0 +1,26 @@
+.backsplash {
+    position: relative;
+}
+
+#scoreboard {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-item {
+    font-size: 1.4em;
+    margin:20px;
+    padding: 0;
+    }
+
+.nav-text {
+    color: #192168;
+}
+
+.navbar-item a:hover {
+  text-decoration: underline; 
+  text-decoration-color: #AF1E2D; 
+}
