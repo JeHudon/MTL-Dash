@@ -1,12 +1,13 @@
 import { getRoster, getSchedule, getScoreboard, getStats } from "./api.js";
 import { useState, useEffect } from "react";
 import "./Dash.css";
+import Icon from "@mdi/react";
+import { mdiWhistle } from "@mdi/js";
 
 function Dash() {
     const [roster, setRoster] = useState([]);
     const [schedule, setSchedule] = useState([]);
     const [scoreboard, setScoreboard] = useState(null);
-    const [stats, setStats] = useState(null);
 
     useEffect(() => {
         // const fetchRoster = async () => {
@@ -19,11 +20,6 @@ function Dash() {
         //     setSchedule(data);
         // };
 
-        // const fetchStats = async () => {
-        //     const data = await getStats();
-        //     setStats(data);
-        // }
-
         const fetchScoreboard = async () => {
             const data = await getScoreboard();
             setScoreboard(data);
@@ -31,8 +27,11 @@ function Dash() {
 
         // fetchRoster();
         // fetchSchedule();
-        // fetchStats();
         fetchScoreboard();
+
+        const interval = setInterval(fetchScoreboard, 20000); // every 30s
+
+        return () => clearInterval(interval); // cleanup
     }, []);
 
     return (
@@ -61,17 +60,60 @@ function Dash() {
                                                 },
                                             );
                                         }
+
                                         if (game.gameState === "LIVE") {
-                                            return `${game.period} ${game.clock.timeRemaining}`;
+                                            const suffix =
+                                                game.period === 1
+                                                    ? "ST"
+                                                    : game.period === 2
+                                                      ? "ND"
+                                                      : game.period === 3
+                                                        ? "RD"
+                                                        : "TH";
+
+                                            if (game.clock.inIntermission) {
+                                                return (
+                                                    <>
+                                                        {game.period}
+                                                        {suffix} INT
+                                                    </>
+                                                );
+                                            }
+
+                                            return (
+                                                <>
+                                                    {game.period}
+                                                    {suffix}
+                                                </>
+                                            );
                                         }
-                                        if (game.gameState === "OFF" || game.gameState === "FINAL")
+
+                                        if (
+                                            game.gameState === "OFF" ||
+                                            game.gameState === "FINAL"
+                                        ) {
                                             return (
                                                 "Final" +
-                                                (game.periodDescriptor.periodType != "REG"
+                                                (game.periodDescriptor.periodType !== "REG"
                                                     ? `/${game.periodDescriptor.periodType}`
                                                     : "")
                                             );
+                                        }
+
                                         return "";
+                                    };
+                                    const getGameStatusClass = () => {
+                                        if (
+                                            game.gameState === "LIVE" &&
+                                            !game.clock?.inIntermission
+                                        ) {
+                                            return "game-status-live";
+                                        }
+                                        if (game.gameState === "CRIT") {
+                                            return "game-status-crit";
+                                        }
+
+                                        return "game-status";
                                     };
 
                                     const teams = ["homeTeam", "awayTeam"];
@@ -82,8 +124,32 @@ function Dash() {
                                                 <div className="game-date">{gameDate}</div>
 
                                                 <div className="game-info">
-                                                    <div className="game-status">
-                                                        {getGameStatus()}
+                                                    <div className="game-status-wrapper">
+                                                        <div className={getGameStatusClass()}>
+                                                            {getGameStatus()}
+                                                        </div>
+
+                                                        {game.gameState === "LIVE" ? (
+                                                            <span className="time">
+                                                                <span className="live-indicator"></span>
+                                                                {game.clock.timeRemaining}
+                                                                {!game.clock.running &&
+                                                                game.clock.inIntermission ? (
+                                                                    // <Icon
+                                                                    //     path={mdiWhistle}
+                                                                    //     size={0.7}
+                                                                    // />
+                                                                    " Zamboni"
+                                                                ) : !game.clock.running ? (
+                                                                    <Icon
+                                                                        path={mdiWhistle}
+                                                                        size={0.7}
+                                                                    />
+                                                                ) : (
+                                                                    ""
+                                                                )}
+                                                            </span>
+                                                        ) : null}
                                                     </div>
 
                                                     {teams.map((side) => {
