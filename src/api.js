@@ -15,8 +15,8 @@ export async function getScoreboard() {
   return response.json();
 }
 
-export async function getStats() {
-  const response = await fetch(`${BASE_URL}/club-stats/MTL/20252026/2`);
+export async function getStats(season, gameType) {
+  const response = await fetch(`${BASE_URL}/club-stats/MTL/${season}/${gameType}`);
   return response.json();
 }
 
