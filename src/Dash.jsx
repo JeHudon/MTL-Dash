@@ -93,7 +93,7 @@ function Dash() {
                                             game.gameState === "FINAL"
                                         ) {
                                             return (
-                                                "Final" +
+                                                "FINAL" +
                                                 (game.periodDescriptor.periodType !== "REG"
                                                     ? `/${game.periodDescriptor.periodType}`
                                                     : "")

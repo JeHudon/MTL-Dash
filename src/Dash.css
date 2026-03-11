@@ -25,8 +25,8 @@
     padding: 3px 10px;
     border-radius: 20px;
     background: #efefef;
-    font-size: 0.85em;
-    font-weight: 600;
+    font-size: 0.8em;
+    font-weight: 700;
     width: fit-content;
 }
 
@@ -35,8 +35,8 @@
     padding: 3px 10px;
     border-radius: 20px;
     background: green;
-    font-size: 0.85em;
-    font-weight: 600;
+    font-size: 0.8em;
+    font-weight: 700;
     width: fit-content;
     color: white;
 }
@@ -46,8 +46,8 @@
     padding: 3px 10px;
     border-radius: 20px;
     background: red;
-    font-size: 0.85em;
-    font-weight: 600;
+    font-size: 0.8em;
+    font-weight: 700;
     width: fit-content;
     color: white;
 }
