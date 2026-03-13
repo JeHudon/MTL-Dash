@@ -1,3 +1,4 @@
 Dashboard : next games, 
 Navbar : team (roaster and stats), Schedule complet, standings
 Utiliser paneau Avenue des Canadiens pour qlq chose
+Postman workspace pour checker apis direct dans vscode
