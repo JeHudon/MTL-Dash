@@ -2,6 +2,8 @@ import { getStats, getSeasons } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { useParams, useNavigate } from "react-router-dom";
+import { getSkaterCols } from "../../data/statsSkaterCols.js";
+import { getGoalieCols } from "../../data/statsGoalieCols.js";
 
 function Stats() {
     const [stats, setStats] = useState([]);
@@ -93,53 +95,8 @@ function Stats() {
         );
     }
 
-    const skaterCols = [
-        {
-            label: "Pos",
-            title: "Position",
-            key: "positionCode",
-            defaultDir: "asc",
-            render: (p) =>
-                p.positionCode === "R" || p.positionCode === "L"
-                    ? p.positionCode + "W"
-                    : p.positionCode,
-        },
-        { label: "GP", title: "Games Played", key: "gamesPlayed", render: (p) => p.gamesPlayed },
-        { label: "G", title: "Goals", key: "goals", render: (p) => p.goals },
-        { label: "A", title: "Assists", key: "assists", render: (p) => p.assists },
-        { label: "Pts", title: "Points", key: "points", render: (p) => p.points },
-        { label: "+/-", title: "Plus/Minus", key: "plusMinus", render: (p) => p.plusMinus },
-        { label: "PIM", title: "Penalty Minutes", key: "penaltyMinutes", render: (p) => p.penaltyMinutes },
-        { label: "PPG", title: "Power Play Goals", key: "powerPlayGoals", render: (p) => p.powerPlayGoals },
-        { label: "SHG", title: "Shorthanded Goals", key: "shorthandedGoals", render: (p) => p.shorthandedGoals },
-        { label: "GWG", title: "Game Winning Goals", key: "gameWinningGoals", render: (p) => p.gameWinningGoals },
-        { label: "OTG", title: "Overtime Goals", key: "overtimeGoals", render: (p) => p.overtimeGoals },
-        { label: "S", title: "Shots", key: "shots", render: (p) => p.shots },
-        { label: "S%", title: "Shooting Percentage", key: "shootingPctg", render: (p) => p.shootingPctg.toFixed(1) },
-        { label: "TOI/G", title: "Time On Ice Per Game", key: "avgTimeOnIcePerGame", render: (p) => formatTime(p.avgTimeOnIcePerGame) },
-        { label: "SFT/G", title: "Shifts Per Game", key: "avgShiftsPerGame", render: (p) => p.avgShiftsPerGame.toFixed(1) },
-        { label: "FO%", title: "Faceoff Win Percentage", key: "faceoffWinPctg", render: (p) => p.faceoffWinPctg.toFixed(1) },
-    ];
-
-    const goalieCols = [
-        { label: "GP", title: "Games Played", key: "gamesPlayed", render: (g) => g.gamesPlayed },
-        { label: "GS", title: "Games Started", key: "gamesStarted", render: (g) => g.gamesStarted },
-        { label: "W", title: "Wins", key: "wins", render: (g) => g.wins },
-        { label: "L", title: "Losses", key: "losses", render: (g) => g.losses },
-        { label: "OT", title: "Overtime Losses", key: "overtimeLosses", render: (g) => g.overtimeLosses },
-        { label: "GAA", title: "Goals Against Average", key: "goalsAgainstAverage", render: (g) => g.goalsAgainstAverage.toFixed(2) },
-        { label: "SV%", title: "Save Percentage", key: "savePercentage", render: (g) => g.savePercentage.toFixed(3) },
-        { label: "SA", title: "Shots Against", key: "shotsAgainst", render: (g) => g.shotsAgainst },
-        { label: "SV", title: "Saves", key: "saves", render: (g) => g.saves },
-        { label: "GA", title: "Goals Against", key: "goalsAgainst", render: (g) => g.goalsAgainst },
-        { label: "SO", title: "Shutouts", key: "shutouts", render: (g) => g.shutouts },
-        { label: "G", title: "Goals", key: "goals", render: (g) => g.goals },
-        { label: "A", title: "Assists", key: "assists", render: (g) => g.assists },
-        { label: "P", title: "Points", key: "points", render: (g) => g.points },
-        { label: "PIM", title: "Penalty Minutes", key: "penaltyMinutes", render: (g) => g.penaltyMinutes },
-        { label: "TOI", title: "Time On Ice", key: "timeOnIce", render: (g) => formatTime(g.timeOnIce) },
-    ];
-
+    const skaterCols = getSkaterCols(formatTime);
+    const goalieCols = getGoalieCols(formatTime);
     const sortedSkaters = sortData(stats?.skaters, skaterSort);
     const sortedGoalies = sortData(stats?.goalies, goalieSort);
 
@@ -153,10 +110,14 @@ function Stats() {
                             <div className="dropdown-trigger">
                                 <button
                                     className="button custom-select-button"
-                                    onClick={() => setOpenDropdown(openDropdown === "season" ? null : "season")}
+                                    onClick={() =>
+                                        setOpenDropdown(openDropdown === "season" ? null : "season")
+                                    }
                                 >
                                     <span>{formatSeason(season)}</span>
-                                    <i className={`fa-solid fa-chevron-down ${openDropdown === "season" ? "rotate" : ""}`}></i>
+                                    <i
+                                        className={`fa-solid fa-chevron-down ${openDropdown === "season" ? "rotate" : ""}`}
+                                    ></i>
                                 </button>
                             </div>
                             <div className="dropdown-menu">
@@ -180,14 +141,22 @@ function Stats() {
                         </div>
 
                         {/* Game Type Selector */}
-                        <div className={`dropdown ${openDropdown === "gameType" ? "is-active" : ""}`}>
+                        <div
+                            className={`dropdown ${openDropdown === "gameType" ? "is-active" : ""}`}
+                        >
                             <div className="dropdown-trigger">
                                 <button
                                     className="button custom-select-button"
-                                    onClick={() => setOpenDropdown(openDropdown === "gameType" ? null : "gameType")}
+                                    onClick={() =>
+                                        setOpenDropdown(
+                                            openDropdown === "gameType" ? null : "gameType",
+                                        )
+                                    }
                                 >
                                     <span>{formatGameType(gameType)}</span>
-                                    <i className={`fa-solid fa-chevron-down ${openDropdown === "gameType" ? "rotate" : ""}`}></i>
+                                    <i
+                                        className={`fa-solid fa-chevron-down ${openDropdown === "gameType" ? "rotate" : ""}`}
+                                    ></i>
                                 </button>
                             </div>
                             <div className="dropdown-menu">
@@ -208,7 +177,7 @@ function Stats() {
                                                     </a>
                                                     <hr />
                                                 </React.Fragment>
-                                            ))
+                                            )),
                                         )}
                                 </div>
                             </div>
@@ -216,7 +185,9 @@ function Stats() {
                     </div>
 
                     {/* Skaters */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>Skaters</div>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                        Skaters
+                    </div>
                     <div className="table-wrapper">
                         <table className="table is-striped is-fullwidth">
                             <thead>
@@ -245,7 +216,13 @@ function Stats() {
                             <tbody>
                                 {sortedSkaters.map((player) => (
                                     <tr key={player.playerId}>
-                                        <td className={skaterSort.key === "lastName" ? "active-sort-col" : ""}>
+                                        <td
+                                            className={
+                                                skaterSort.key === "lastName"
+                                                    ? "active-sort-col"
+                                                    : ""
+                                            }
+                                        >
                                             <div className="player-cell">
                                                 <img src={player.headshot} width="50" />
                                                 {player.firstName?.default}{" "}
@@ -253,7 +230,14 @@ function Stats() {
                                             </div>
                                         </td>
                                         {skaterCols.map((col) => (
-                                            <td key={col.label} className={skaterSort.key === col.key ? "active-sort-col" : ""}>
+                                            <td
+                                                key={col.label}
+                                                className={
+                                                    skaterSort.key === col.key
+                                                        ? "active-sort-col"
+                                                        : ""
+                                                }
+                                            >
                                                 {col.render(player)}
                                             </td>
                                         ))}
@@ -264,7 +248,9 @@ function Stats() {
                     </div>
 
                     {/* Goalies */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>Goalies</div>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                        Goalies
+                    </div>
                     <div className="table-wrapper">
                         <table className="table is-striped is-fullwidth">
                             <thead>
@@ -293,7 +279,13 @@ function Stats() {
                             <tbody>
                                 {sortedGoalies.map((goalie) => (
                                     <tr key={goalie.playerId}>
-                                        <td className={goalieSort.key === "lastName" ? "active-sort-col" : ""}>
+                                        <td
+                                            className={
+                                                goalieSort.key === "lastName"
+                                                    ? "active-sort-col"
+                                                    : ""
+                                            }
+                                        >
                                             <div className="player-cell">
                                                 <img src={goalie.headshot} width="50" />
                                                 {goalie.firstName?.default}{" "}
@@ -301,7 +293,14 @@ function Stats() {
                                             </div>
                                         </td>
                                         {goalieCols.map((col) => (
-                                            <td key={col.label} className={goalieSort.key === col.key ? "active-sort-col" : ""}>
+                                            <td
+                                                key={col.label}
+                                                className={
+                                                    goalieSort.key === col.key
+                                                        ? "active-sort-col"
+                                                        : ""
+                                                }
+                                            >
                                                 {col.render(goalie)}
                                             </td>
                                         ))}
@@ -310,7 +309,6 @@ function Stats() {
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </>
