@@ -5,6 +5,7 @@ import "./Roster.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPlayersCols } from "../../data/rosterSkaterCols.js";
 import { SortableTable } from "../../components/SortableTable.jsx";
+import Dropdown from "../../components/Dropdown.jsx";
 
 function Stats() {
     const [roster, setRoster] = useState([]);
@@ -92,39 +93,17 @@ function Stats() {
                 <div className="section">
                     <div className="columns is-left">
                         {/* Season Selector */}
-                        <div className={`dropdown ${openDropdown === "season" ? "is-active" : ""}`}>
-                            <div className="dropdown-trigger">
-                                <button
-                                    className="button custom-select-button"
-                                    onClick={() =>
-                                        setOpenDropdown(openDropdown === "season" ? null : "season")
-                                    }
-                                >
-                                    <span>{formatSeason(season)}</span>
-                                    <i
-                                        className={`fa-solid fa-chevron-down ${openDropdown === "season" ? "rotate" : ""}`}
-                                    ></i>
-                                </button>
-                            </div>
-                            <div className="dropdown-menu">
-                                <div className="dropdown-content">
-                                    {allSeasons.map((s) => (
-                                        <React.Fragment key={s.season}>
-                                            <a
-                                                className="dropdown-item"
-                                                onClick={() => {
-                                                    updateFilters(s.season, 2);
-                                                    setOpenDropdown(null);
-                                                }}
-                                            >
-                                                {formatSeason(s.season)}
-                                            </a>
-                                            <hr />
-                                        </React.Fragment>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                        <Dropdown
+                            id="season"
+                            label={formatSeason(season)}
+                            options={allSeasons.map((s) => ({
+                                value: s.season,
+                                label: formatSeason(s.season),
+                            }))}
+                            openDropdown={openDropdown}
+                            setOpenDropdown={setOpenDropdown}
+                            onSelect={(value) => updateFilters(value)}
+                        />
                     </div>
 
                     {/* Forwards table */}

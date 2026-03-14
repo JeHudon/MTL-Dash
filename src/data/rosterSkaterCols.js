@@ -58,7 +58,14 @@ export function getPlayersCols(type) {
             title: "Birth Date",
             key: "birthDate",
             defaultDir: "asc",
-            render: (p) => p.birthDate,
+            render: (p) => {
+                const date = new Date(p.birthDate);
+                return date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                });
+            },
         },
         {
             label: "Birthplace",
