@@ -29,7 +29,7 @@ export const translations = {
         defensemen: "Défenseurs",
         home: "Accueil",
         team: "Équipe",
-        stats: "Statistiques",
+        stats: "Stats",
         schedule: "Calendrier",
         standings: "Classement",
     },
