@@ -1,9 +1,11 @@
+// Imporation des apis, commandes, components et data
 import { getStats, getSeasons } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getSkaterCols } from "../../data/statsSkaterCols.js";
 import { getGoalieCols } from "../../data/statsGoalieCols.js";
+import { SortableTable } from "../../components/SortableTable.jsx";
 
 function Stats() {
     const [stats, setStats] = useState([]);
@@ -17,12 +19,14 @@ function Stats() {
     const gameType = Number(gameTypeParam ?? 2);
     const navigate = useNavigate();
 
+    // Update l'url quand change de saison ou gameType
     function updateFilters(newSeason, newGameType) {
         navigate(`/stats/${newSeason}/${newGameType}`);
         setSkaterSort({ key: "points", dir: "desc" });
         setGoalieSort({ key: "wins", dir: "desc" });
     }
 
+    // Récuperer toutes les saisons pour dropdown
     useEffect(() => {
         const fetchSeasons = async () => {
             const data = await getSeasons();
@@ -31,6 +35,7 @@ function Stats() {
         fetchSeasons();
     }, []);
 
+    // Récuperer les stats des joueurs au lancement et aussi quand season ou gameType change
     useEffect(() => {
         const fetchStats = async () => {
             const data = await getStats(season, gameType);
@@ -39,17 +44,20 @@ function Stats() {
         fetchStats();
     }, [season, gameType]);
 
+    // Formatte la saison de 20252026 -> 2025-26
     function formatSeason(season) {
         const start = season.toString().slice(0, 4);
         const end = season.toString().slice(6);
         return `${start}-${end}`;
     }
 
+    // Formatte le gameType de 2 -> Régulière
     function formatGameType(gameType) {
         if (gameType === 2) return "Régulière";
         if (gameType === 3) return "Séries éliminatoires";
     }
 
+    // Formatte le temps en secondes en format MM:SS
     function formatTime(seconds) {
         const totalSeconds = Math.floor(seconds);
         const minutes = Math.floor(totalSeconds / 60);
@@ -57,6 +65,7 @@ function Stats() {
         return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
     }
 
+    // Fonction premet sort dans bon sens
     function sortData(data, { key, dir }) {
         if (!data) return [];
         return [...data].sort((a, b) => {
@@ -67,32 +76,6 @@ function Stats() {
             }
             return dir === "desc" ? bVal - aVal : aVal - bVal;
         });
-    }
-
-    function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState }) {
-        const isActive = sortState.key === sortKey;
-        const isDesc = sortState.dir === "desc";
-
-        function handleClick() {
-            if (!sortKey) return;
-            if (isActive) {
-                setSortState({ key: sortKey, dir: isDesc ? "asc" : "desc" });
-            } else {
-                setSortState({ key: sortKey, dir: defaultDir ?? "desc" });
-            }
-        }
-
-        return (
-            <th
-                onClick={handleClick}
-                className={`${sortKey ? "sortable-th" : ""} ${isActive ? "active-sort" : ""}`}
-            >
-                <abbr title={title}>{label}</abbr>
-                {sortKey && (
-                    <span className="sort-icon">{isActive ? (isDesc ? " ↓" : " ↑") : " ↕"}</span>
-                )}
-            </th>
-        );
     }
 
     const skaterCols = getSkaterCols(formatTime);
@@ -139,7 +122,7 @@ function Stats() {
                                 </div>
                             </div>
                         </div>
-
+                                                        
                         {/* Game Type Selector */}
                         <div
                             className={`dropdown ${openDropdown === "gameType" ? "is-active" : ""}`}
@@ -184,131 +167,33 @@ function Stats() {
                         </div>
                     </div>
 
-                    {/* Skaters */}
+                    {/* Skaters table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
                         Skaters
                     </div>
-                    <div className="table-wrapper">
-                        <table className="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <SortTh
-                                        label="Player"
-                                        title="Player"
-                                        sortKey="lastName"
-                                        defaultDir="asc"
-                                        sortState={skaterSort}
-                                        setSortState={setSkaterSort}
-                                    />
-                                    {skaterCols.map((col) => (
-                                        <SortTh
-                                            key={col.label}
-                                            label={col.label}
-                                            title={col.title}
-                                            sortKey={col.key}
-                                            defaultDir={col.defaultDir}
-                                            sortState={skaterSort}
-                                            setSortState={setSkaterSort}
-                                        />
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedSkaters.map((player) => (
-                                    <tr key={player.playerId}>
-                                        <td
-                                            className={
-                                                skaterSort.key === "lastName"
-                                                    ? "active-sort-col"
-                                                    : ""
-                                            }
-                                        >
-                                            <div className="player-cell">
-                                                <img src={player.headshot} width="50" />
-                                                {player.firstName?.default}{" "}
-                                                {player.lastName?.default}
-                                            </div>
-                                        </td>
-                                        {skaterCols.map((col) => (
-                                            <td
-                                                key={col.label}
-                                                className={
-                                                    skaterSort.key === col.key
-                                                        ? "active-sort-col"
-                                                        : ""
-                                                }
-                                            >
-                                                {col.render(player)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Appel component SortableTable qui me donne le layout préfait */}
+                    <SortableTable
+                        cols={skaterCols}
+                        rows={sortedSkaters}
+                        sortState={skaterSort}
+                        setSortState={setSkaterSort}
+                        rowKey="id"
+                        playerKey="lastName"
+                    />
 
-                    {/* Goalies */}
+                    {/* Goalies table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
                         Goalies
                     </div>
-                    <div className="table-wrapper">
-                        <table className="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <SortTh
-                                        label="Player"
-                                        title="Player"
-                                        sortKey="lastName"
-                                        defaultDir="asc"
-                                        sortState={goalieSort}
-                                        setSortState={setGoalieSort}
-                                    />
-                                    {goalieCols.map((col) => (
-                                        <SortTh
-                                            key={col.label}
-                                            label={col.label}
-                                            title={col.title}
-                                            sortKey={col.key}
-                                            defaultDir={col.defaultDir}
-                                            sortState={goalieSort}
-                                            setSortState={setGoalieSort}
-                                        />
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedGoalies.map((goalie) => (
-                                    <tr key={goalie.playerId}>
-                                        <td
-                                            className={
-                                                goalieSort.key === "lastName"
-                                                    ? "active-sort-col"
-                                                    : ""
-                                            }
-                                        >
-                                            <div className="player-cell">
-                                                <img src={goalie.headshot} width="50" />
-                                                {goalie.firstName?.default}{" "}
-                                                {goalie.lastName?.default}
-                                            </div>
-                                        </td>
-                                        {goalieCols.map((col) => (
-                                            <td
-                                                key={col.label}
-                                                className={
-                                                    goalieSort.key === col.key
-                                                        ? "active-sort-col"
-                                                        : ""
-                                                }
-                                            >
-                                                {col.render(goalie)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Appel component SortableTable qui me donne le layout préfait */}
+                    <SortableTable
+                        cols={goalieCols}
+                        rows={sortedGoalies}
+                        sortState={goalieSort}
+                        setSortState={setGoalieSort}
+                        rowKey="id"
+                        playerKey="lastName"
+                    />
                 </div>
             </div>
         </>

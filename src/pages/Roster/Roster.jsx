@@ -1,8 +1,10 @@
-import { getStats, getSeasons, getRoster } from "../../api.js";
+// Imporation des apis, commandes, components et data
+import { getSeasons, getRoster } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Roster.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPlayersCols } from "../../data/rosterSkaterCols.js";
+import { SortableTable } from "../../components/SortableTable.jsx";
 
 function Stats() {
     const [roster, setRoster] = useState([]);
@@ -16,6 +18,7 @@ function Stats() {
     const season = seasonParam ?? "20252026";
     const navigate = useNavigate();
 
+    // Update l'url quand change de saison
     function updateFilters(newSeason) {
         navigate(`/roster/${newSeason}`);
         setForwardSort({ key: null, dir: "desc" });
@@ -23,6 +26,7 @@ function Stats() {
         setGoalieSort({ key: null, dir: "desc" });
     }
 
+    // Récuperer toutes les saisons pour dropdown
     useEffect(() => {
         const fetchSeasons = async () => {
             const data = await getSeasons();
@@ -31,6 +35,7 @@ function Stats() {
         fetchSeasons();
     }, []);
 
+    // Récuperer le roster au lancement et aussi quand season change
     useEffect(() => {
         const fetchRoster = async () => {
             const data = await getRoster(season);
@@ -39,12 +44,14 @@ function Stats() {
         fetchRoster();
     }, [season]);
 
+    // Formatte la saison de 20252026 -> 2025-26
     function formatSeason(season) {
         const start = season.toString().slice(0, 4);
         const end = season.toString().slice(6);
         return `${start}-${end}`;
     }
 
+    // Fonction premet sort dans bon sens
     function sortData(data, { key, dir }) {
         if (!data) return [];
         return [...data].sort((a, b) => {
@@ -70,35 +77,11 @@ function Stats() {
         });
     }
 
-    function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState }) {
-        const isActive = sortState.key === sortKey;
-        const isDesc = sortState.dir === "desc";
-
-        function handleClick() {
-            if (!sortKey) return;
-            if (isActive) {
-                setSortState({ key: sortKey, dir: isDesc ? "asc" : "desc" });
-            } else {
-                setSortState({ key: sortKey, dir: defaultDir ?? "desc" });
-            }
-        }
-
-        return (
-            <th
-                onClick={handleClick}
-                className={`${sortKey ? "sortable-th" : ""} ${isActive ? "active-sort" : ""}`}
-            >
-                <abbr title={title}>{label}</abbr>
-                {sortKey && (
-                    <span className="sort-icon">{isActive ? (isDesc ? " ↓" : " ↑") : " ↕"}</span>
-                )}
-            </th>
-        );
-    }
-
+    // Variables contenant les Colonnes pour la table
     const forwardCols = getPlayersCols("skater");
     const defenceCols = getPlayersCols("skater");
     const goalieCols = getPlayersCols("goalie");
+    // Variables contient joueurs sorted selon le sort
     const sortedForwards = sortData(roster?.forwards, forwardSort);
     const sortedDefensemens = sortData(roster?.defensemen, defenceSort);
     const sortedGoalies = sortData(roster?.goalies, goalieSort);
@@ -131,7 +114,7 @@ function Stats() {
                                                 className="dropdown-item"
                                                 onClick={() => {
                                                     updateFilters(s.season, 2);
-                                                    setOpenDropdown(null)
+                                                    setOpenDropdown(null);
                                                 }}
                                             >
                                                 {formatSeason(s.season)}
@@ -144,194 +127,46 @@ function Stats() {
                         </div>
                     </div>
 
-                    {/* Forwards */}
+                    {/* Forwards table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
                         Forwards
                     </div>
-                    <div className="table-wrapper">
-                        <table className="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <SortTh
-                                        label="Player"
-                                        title="Player"
-                                        sortKey="lastName"
-                                        defaultDir="asc"
-                                        sortState={forwardSort}
-                                        setSortState={setForwardSort}
-                                    />
-                                    {forwardCols.map((col) => (
-                                        <SortTh
-                                            key={col.label}
-                                            label={col.label}
-                                            title={col.title}
-                                            sortKey={col.key}
-                                            defaultDir={col.defaultDir}
-                                            sortState={forwardSort}
-                                            setSortState={setForwardSort}
-                                        />
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedForwards.map((player) => (
-                                    <tr key={player.id}>
-                                        <td
-                                            className={
-                                                forwardSort.key === "lastName"
-                                                    ? "active-sort-col"
-                                                    : ""
-                                            }
-                                        >
-                                            <div className="player-cell">
-                                                <img src={player.headshot} width="50" />
-                                                {player.firstName?.default}{" "}
-                                                {player.lastName?.default}
-                                            </div>
-                                        </td>
-                                        {forwardCols.map((col) => (
-                                            <td
-                                                key={col.label}
-                                                className={
-                                                    forwardSort.key === col.key
-                                                        ? "active-sort-col"
-                                                        : ""
-                                                }
-                                            >
-                                                {col.render(player)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* DMens */}
+                    {/* Appel component SortableTable qui me donne le layout préfait */}
+                    <SortableTable
+                        cols={forwardCols}
+                        rows={sortedForwards}
+                        sortState={forwardSort}
+                        setSortState={setForwardSort}
+                        rowKey="id"
+                        playerKey="lastName"
+                    />
+                    {/* DMens table*/}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
                         Defensmen
                     </div>
-                    <div className="table-wrapper">
-                        <table className="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <SortTh
-                                        label="Player"
-                                        title="Player"
-                                        sortKey="lastName"
-                                        defaultDir="asc"
-                                        sortState={defenceSort}
-                                        setSortState={setForwardSort}
-                                    />
-                                    {defenceCols.map((col) => (
-                                        <SortTh
-                                            key={col.label}
-                                            label={col.label}
-                                            title={col.title}
-                                            sortKey={col.key}
-                                            defaultDir={col.defaultDir}
-                                            sortState={defenceSort}
-                                            setSortState={setDefenceSort}
-                                        />
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedDefensemens.map((player) => (
-                                    <tr key={player.id}>
-                                        <td
-                                            className={
-                                                defenceSort.key === "lastName"
-                                                    ? "active-sort-col"
-                                                    : ""
-                                            }
-                                        >
-                                            <div className="player-cell">
-                                                <img src={player.headshot} width="50" />
-                                                {player.firstName?.default}{" "}
-                                                {player.lastName?.default}
-                                            </div>
-                                        </td>
-                                        {defenceCols.map((col) => (
-                                            <td
-                                                key={col.label}
-                                                className={
-                                                    defenceSort.key === col.key
-                                                        ? "active-sort-col"
-                                                        : ""
-                                                }
-                                            >
-                                                {col.render(player)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Appel component SortableTable qui me donne le layout préfait */}
+                    <SortableTable
+                        cols={defenceCols}
+                        rows={sortedDefensemens}
+                        sortState={defenceSort}
+                        setSortState={setDefenceSort}
+                        rowKey="id"
+                        playerKey="lastName"
+                    />
 
-                    {/* Goalies */}
+                    {/* Goalies table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
                         Goalies
                     </div>
-                    <div className="table-wrapper">
-                        <table className="table is-striped is-fullwidth">
-                            <thead>
-                                <tr>
-                                    <SortTh
-                                        label="Player"
-                                        title="Player"
-                                        sortKey="lastName"
-                                        defaultDir="asc"
-                                        sortState={goalieSort}
-                                        setSortState={setGoalieSort}
-                                    />
-                                    {goalieCols.map((col) => (
-                                        <SortTh
-                                            key={col.label}
-                                            label={col.label}
-                                            title={col.title}
-                                            sortKey={col.key}
-                                            defaultDir={col.defaultDir}
-                                            sortState={goalieSort}
-                                            setSortState={setGoalieSort}
-                                        />
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sortedGoalies.map((goalie) => (
-                                    <tr key={goalie.id}>
-                                        <td
-                                            className={
-                                                goalieSort.key === "lastName"
-                                                    ? "active-sort-col"
-                                                    : ""
-                                            }
-                                        >
-                                            <div className="player-cell">
-                                                <img src={goalie.headshot} width="50" />
-                                                {goalie.firstName?.default}{" "}
-                                                {goalie.lastName?.default}
-                                            </div>
-                                        </td>
-                                        {goalieCols.map((col) => (
-                                            <td
-                                                key={col.label}
-                                                className={
-                                                    goalieSort.key === col.key
-                                                        ? "active-sort-col"
-                                                        : ""
-                                                }
-                                            >
-                                                {col.render(goalie)}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    {/* Appel component SortableTable qui me donne le layout préfait */}
+                    <SortableTable
+                        cols={goalieCols}
+                        rows={sortedGoalies}
+                        sortState={goalieSort}
+                        setSortState={setGoalieSort}
+                        rowKey="id"
+                        playerKey="lastName"
+                    />
                 </div>
             </div>
         </>
