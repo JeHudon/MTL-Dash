@@ -1,37 +1,45 @@
-import { getRoster, getSchedule, getScoreboard, getStats } from "../../api.js";
+import { getScoreboard } from "../../api.js";
 import { useState, useEffect } from "react";
 import "./Dash.css";
 import Icon from "@mdi/react";
 import { mdiWhistle } from "@mdi/js";
 
 function Dash() {
-    const [roster, setRoster] = useState([]);
-    const [schedule, setSchedule] = useState([]);
     const [scoreboard, setScoreboard] = useState(null);
 
     useEffect(() => {
-        // const fetchRoster = async () => {
-        //     const data = await getRoster();
-        //     setRoster(data);
-        // };
-
-        // const fetchSchedule = async () => {
-        //     const data = await getSchedule();
-        //     setSchedule(data);
-        // };
+        let timeout;
 
         const fetchScoreboard = async () => {
             const data = await getScoreboard();
             setScoreboard(data);
+
+            const isLive = data?.gamesByDate?.some((day) =>
+                day.games.some((g) => g.gameState === "LIVE" || g.gameState === "CRIT"),
+            );
+
+            timeout = setTimeout(fetchScoreboard, isLive ? 20000 : 60000);
         };
 
-        // fetchRoster();
-        // fetchSchedule();
-        fetchScoreboard();
+        if (!document.hidden) {
+            fetchScoreboard();
+        }
 
-        const interval = setInterval(fetchScoreboard, 20000); // every 30s
+        const onVisibilityChange = () => {
+            if (!document.hidden) {
+                clearTimeout(timeout);
+                fetchScoreboard();
+            } else {
+                clearTimeout(timeout);
+            }
+        };
 
-        return () => clearInterval(interval); // cleanup
+        document.addEventListener("visibilitychange", onVisibilityChange);
+
+        return () => {
+            clearTimeout(timeout);
+            document.removeEventListener("visibilitychange", onVisibilityChange);
+        };
     }, []);
 
     return (

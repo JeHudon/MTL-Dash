@@ -1,7 +1,7 @@
 const BASE_URL = "/api";
 
-export async function getRoster() {
-  const response = await fetch(`${BASE_URL}/roster/MTL/20252026`);
+export async function getRoster(season) {
+  const response = await fetch(`${BASE_URL}/roster/MTL/${season}`);
   return response.json();
 }
 
