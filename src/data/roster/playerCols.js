@@ -1,14 +1,41 @@
-export function getPlayersCols(type) {
+const titles = {
+    "en-US": {
+        sweaterNumber: "Sweater Number",
+        position: "Position",
+        catches: "Catches",
+        shoots: "Shoots",
+        height: "Height",
+        weight: "Weight",
+        age: "Age",
+        birthDate: "Birth Date",
+        birthplace: "Birthplace",
+    },
+    "fr-FR": {
+        sweaterNumber: "Numéro",
+        position: "Position",
+        catches: "Attrape",
+        shoots: "Tir",
+        height: "Taille",
+        weight: "Poids",
+        age: "Âge",
+        birthDate: "Date de naissance",
+        birthplace: "Lieu de naissance",
+    },
+};
+
+export function getPlayersCols(type, locale = "fr-FR") {
+    const t = titles[locale] ?? titles["fr-FR"];
+
     return [
         {
             label: "#",
-            title: "Sweater Number",
+            title: t.sweaterNumber,
             key: "sweaterNumber",
             render: (p) => p.sweaterNumber,
         },
         {
             label: "Pos",
-            title: "Position",
+            title: t.position,
             key: "positionCode",
             defaultDir: "asc",
             render: (p) =>
@@ -17,15 +44,15 @@ export function getPlayersCols(type) {
                     : p.positionCode,
         },
         {
-            label: type === "goalie" ? "Ca" : "Sh",
-            title: type === "goalie" ? "Catches" : "Shoots",
+            label: type === "goalie" ? (locale === "fr-FR" ? "At" : "Ca") : (locale === "fr-FR" ? "Ti" : "Sh"),
+            title: type === "goalie" ? t.catches : t.shoots,
             key: "shootsCatches",
             defaultDir: "asc",
             render: (p) => p.shootsCatches,
         },
         {
-            label: "Ht",
-            title: "Height",
+            label: locale === "fr-FR" ? "Ta" : "Ht",
+            title: t.height,
             key: "heightInInches",
             render: (p) => {
                 const totalInches = p.heightInInches;
@@ -35,14 +62,14 @@ export function getPlayersCols(type) {
             },
         },
         {
-            label: "Wt",
-            title: "Weight",
+            label: locale === "fr-FR" ? "Pds" : "Wt",
+            title: t.weight,
             key: "weightInPounds",
-            render: (p) => `${p.weightInPounds} kg`,
+            render: (p) => `${p.weightInPounds} lbs`,
         },
         {
-            label: "Age",
-            title: "Age",
+            label: locale === "fr-FR" ? "Âge" : "Age",
+            title: t.age,
             key: "age",
             render: (p) => {
                 const birth = new Date(p.birthDate);
@@ -54,13 +81,13 @@ export function getPlayersCols(type) {
             },
         },
         {
-            label: "Born",
-            title: "Birth Date",
+            label: locale === "fr-FR" ? "Date de naissance" : "Born",
+            title: t.birthDate,
             key: "birthDate",
             defaultDir: "asc",
             render: (p) => {
                 const date = new Date(p.birthDate);
-                return date.toLocaleDateString("en-US", {
+                return date.toLocaleDateString(locale, {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
@@ -68,8 +95,8 @@ export function getPlayersCols(type) {
             },
         },
         {
-            label: "Birthplace",
-            title: "Birthplace",
+            label: locale === "fr-FR" ? "Lieu de naissance" : "Birthplace",
+            title: t.birthplace,
             key: "birthCity",
             defaultDir: "asc",
             render: (p) => {

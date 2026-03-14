@@ -1,5 +1,5 @@
-.table.is-striped td:not(:first-child),
-.table.is-striped th:not(:first-child) {
+.stats-page .table.is-striped td:not(:first-child),
+.stats-page .table.is-striped th:not(:first-child) {
     width: 60px !important;
     min-width: 60px !important;
     max-width: 60px !important;

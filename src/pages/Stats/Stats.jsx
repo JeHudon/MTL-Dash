@@ -1,12 +1,14 @@
-// Imporation des apis, commandes, components et data
+// Importation des apis, commandes, components et data
 import { getStats, getSeasons } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { getSkaterCols } from "../../data/statsSkaterCols.js";
-import { getGoalieCols } from "../../data/statsGoalieCols.js";
+import { getSkaterCols } from "../../data/stats/skaterCols.js";
+import { getGoalieCols } from "../../data/stats/goalieCols.js";
 import { SortableTable } from "../../components/SortableTable.jsx";
 import Dropdown from "../../components/Dropdown.jsx";
+import { useLocale } from "../../context/LocaleContext.jsx";
+import { useTranslation } from "../../i18n.js";
 
 function Stats() {
     const [stats, setStats] = useState([]);
@@ -15,14 +17,19 @@ function Stats() {
     const [skaterSort, setSkaterSort] = useState({ key: "points", dir: "desc" });
     const [goalieSort, setGoalieSort] = useState({ key: "wins", dir: "desc" });
 
+    const { locale } = useLocale();
+    const t = useTranslation(locale);
+
     const { season: seasonParam, gameType: gameTypeParam } = useParams();
     const season = seasonParam ?? "20252026";
     const gameType = Number(gameTypeParam ?? 2);
     const navigate = useNavigate();
 
     // Update l'url quand change de saison ou gameType
+    const prefix = locale === "fr-FR" ? "/fr" : "";
+
     function updateFilters(newSeason, newGameType) {
-        navigate(`/stats/${newSeason}/${newGameType}`);
+        navigate(`${prefix}/stats/${newSeason}/${newGameType}`);
         setSkaterSort({ key: "points", dir: "desc" });
         setGoalieSort({ key: "wins", dir: "desc" });
     }
@@ -54,8 +61,8 @@ function Stats() {
 
     // Formatte le gameType de 2 -> Régulière
     function formatGameType(gameType) {
-        if (gameType === 2) return "Régulière";
-        if (gameType === 3) return "Séries éliminatoires";
+        if (gameType === 2) return t.regular;
+        if (gameType === 3) return t.playoffs;
     }
 
     // Formatte le temps en secondes en format MM:SS
@@ -66,7 +73,7 @@ function Stats() {
         return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
     }
 
-    // Fonction premet sort dans bon sens
+    // Fonction permet sort dans bon sens
     function sortData(data, { key, dir }) {
         if (!data) return [];
         return [...data].sort((a, b) => {
@@ -79,14 +86,16 @@ function Stats() {
         });
     }
 
-    const skaterCols = getSkaterCols(formatTime);
-    const goalieCols = getGoalieCols(formatTime);
+    // Variables contenant les Colonnes pour la table
+    const skaterCols = getSkaterCols(formatTime, locale);
+    const goalieCols = getGoalieCols(formatTime, locale);
+    // Variables contient joueurs sorted selon le sort
     const sortedSkaters = sortData(stats?.skaters, skaterSort);
     const sortedGoalies = sortData(stats?.goalies, goalieSort);
 
     return (
         <>
-            <div className="container">
+            <div className="container stats-page">
                 <div className="section">
                     <div className="columns is-left">
                         {/* Season Selector */}
@@ -122,7 +131,7 @@ function Stats() {
 
                     {/* Skaters table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
-                        Skaters
+                        {t.skaters}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
@@ -130,13 +139,13 @@ function Stats() {
                         rows={sortedSkaters}
                         sortState={skaterSort}
                         setSortState={setSkaterSort}
-                        rowKey="id"
+                        rowKey="playerId"
                         playerKey="lastName"
                     />
 
                     {/* Goalies table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
-                        Goalies
+                        {t.goalies}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
@@ -144,7 +153,7 @@ function Stats() {
                         rows={sortedGoalies}
                         sortState={goalieSort}
                         setSortState={setGoalieSort}
-                        rowKey="id"
+                        rowKey="playerId"
                         playerKey="lastName"
                     />
                 </div>

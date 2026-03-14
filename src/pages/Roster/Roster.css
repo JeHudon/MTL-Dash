@@ -1,5 +1,5 @@
-.table.is-striped td:not(:first-child),
-.table.is-striped th:not(:first-child) {
+.roster-page .table.is-striped td:not(:first-child),
+.roster-page .table.is-striped th:not(:first-child) {
     width: 60px !important;
     min-width: 60px !important;
     max-width: 60px !important;
@@ -7,17 +7,17 @@
     vertical-align: middle;
 }
 
-.table.is-striped td:nth-last-child(2),
-.table.is-striped th:nth-last-child(2) {
+.roster-page .table.is-striped td:nth-last-child(2),
+.roster-page .table.is-striped th:nth-last-child(2) {
     width: 135px !important;
     min-width: 135px !important;
     max-width: 135px !important;
     text-align: left !important;
-    padding-left: 40px !important;
+    padding-left: 25px !important;
 }
 
-.table.is-striped td:last-child,
-.table.is-striped th:last-child {
+.roster-page .table.is-striped td:last-child,
+.roster-page .table.is-striped th:last-child {
     width: 200px !important;
     min-width: 200px !important;
     max-width: 200px !important;

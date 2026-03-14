@@ -1,0 +1,61 @@
+// statsGoalieCols.js
+const titles = {
+    "en-US": {
+        gamesPlayed: "Games Played",
+        gamesStarted: "Games Started",
+        wins: "Wins",
+        losses: "Losses",
+        overtimeLosses: "Overtime Losses",
+        gaa: "Goals Against Average",
+        savePctg: "Save Percentage",
+        shotsAgainst: "Shots Against",
+        saves: "Saves",
+        goalsAgainst: "Goals Against",
+        shutouts: "Shutouts",
+        goals: "Goals",
+        assists: "Assists",
+        points: "Points",
+        penaltyMinutes: "Penalty Minutes",
+        toi: "Time On Ice",
+    },
+    "fr-FR": {
+        gamesPlayed: "Matchs joués",
+        gamesStarted: "Matchs commencés",
+        wins: "Victoires",
+        losses: "Défaites",
+        overtimeLosses: "Défaites en prolongation",
+        gaa: "Moyenne de buts alloués",
+        savePctg: "Pourcentage d'arrêts",
+        shotsAgainst: "Tirs contre",
+        saves: "Arrêts",
+        goalsAgainst: "Buts alloués",
+        shutouts: "Jeux blancs",
+        goals: "Buts",
+        assists: "Passes",
+        points: "Points",
+        penaltyMinutes: "Minutes de pénalité",
+        toi: "Temps de glace",
+    },
+};
+
+export function getGoalieCols(formatTime, locale = "fr-FR") {
+    const t = titles[locale] ?? titles["fr-FR"];
+    return [
+        { label: "PJ", title: t.gamesPlayed, key: "gamesPlayed", render: (g) => g.gamesPlayed },
+        { label: "MC", title: t.gamesStarted, key: "gamesStarted", render: (g) => g.gamesStarted },
+        { label: "V", title: t.wins, key: "wins", render: (g) => g.wins },
+        { label: "D", title: t.losses, key: "losses", render: (g) => g.losses },
+        { label: "DP", title: t.overtimeLosses, key: "overtimeLosses", render: (g) => g.overtimeLosses },
+        { label: "MBA", title: t.gaa, key: "goalsAgainstAverage", render: (g) => g.goalsAgainstAverage.toFixed(2) },
+        { label: "AR%", title: t.savePctg, key: "savePercentage", render: (g) => g.savePercentage.toFixed(3) },
+        { label: "TC", title: t.shotsAgainst, key: "shotsAgainst", render: (g) => g.shotsAgainst },
+        { label: "AR", title: t.saves, key: "saves", render: (g) => g.saves },
+        { label: "BA", title: t.goalsAgainst, key: "goalsAgainst", render: (g) => g.goalsAgainst },
+        { label: "JB", title: t.shutouts, key: "shutouts", render: (g) => g.shutouts },
+        { label: "B", title: t.goals, key: "goals", render: (g) => g.goals },
+        { label: "A", title: t.assists, key: "assists", render: (g) => g.assists },
+        { label: "Pts", title: t.points, key: "points", render: (g) => g.points },
+        { label: "PUN", title: t.penaltyMinutes, key: "penaltyMinutes", render: (g) => g.penaltyMinutes },
+        { label: "TG", title: t.toi, key: "timeOnIce", render: (g) => formatTime(g.timeOnIce) },
+    ];
+}
