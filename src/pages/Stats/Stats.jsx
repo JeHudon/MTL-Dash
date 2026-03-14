@@ -1,4 +1,4 @@
-import { getStats, getSeasons } from "./api.js";
+import { getStats, getSeasons } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { useParams, useNavigate } from "react-router-dom";

@@ -1,9 +1,19 @@
-/* Make all boxes the same height */
+.backsplash {
+    position: relative;
+}
+
+.scoreboard {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .columns.is-multiline .box {
     display: flex;
-    flex-direction: column; /* so content stacks vertically */
-    height: 100%; /* allow flex parent to control height */
-
+    flex-direction: column;
+    height: 100%;
 }
 
 .column.is-3 {
@@ -11,7 +21,7 @@
 }
 
 .column.is-3 .box {
-    flex: 1; /* all boxes grow equally inside column */
+    flex: 1;
     padding-bottom: 10px;
 }
 
