@@ -19,6 +19,11 @@ function App() {
             {/* Roster avec données prédéfinies ou non */}
             <Route path="/roster" element={<Navigate to="/roster/20252026" replace />} />
             <Route path="/roster/:season" element={<Roster />} />
+            {/* Profile du joueur */}
+            {/* <Route path="/player/:lastname-:name-:playerId" element={<Player />} /> */}
+            {/* <Link to={`/player/${player.lastName.default.toLowerCase()}-${player.firstName.default.toLowerCase()}-${player.playerId}`}>
+                    {player.firstName.default} {player.lastName.default}
+                </Link> */}
         </Routes>
     );
 }
