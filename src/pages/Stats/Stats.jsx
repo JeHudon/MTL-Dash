@@ -135,6 +135,7 @@ function Stats() {
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
+                        playerLabel={t.player}
                         cols={skaterCols}
                         rows={sortedSkaters}
                         sortState={skaterSort}
@@ -149,6 +150,7 @@ function Stats() {
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
+                        playerLabel={t.player}
                         cols={goalieCols}
                         rows={sortedGoalies}
                         sortState={goalieSort}

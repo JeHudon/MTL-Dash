@@ -15,11 +15,11 @@ function Navbar() {
 
         let path = location.pathname;
 
-        if (isFR && !isGoingFR) {
-            // Enlever le préfixe /fr
-            path = path.replace(/^\/fr/, "") || "/";
-        } else if (!isFR && isGoingFR) {
-            // Ajouter le préfixe /fr
+        // Toujours enlever /fr d'abord
+        path = path.replace(/^\/fr/, "") || "/";
+
+        // Ajouter /fr si on switch vers FR
+        if (isGoingFR) {
             path = "/fr" + path;
         }
 

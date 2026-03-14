@@ -1,7 +1,7 @@
 // src/components/SortableTable.jsx
 import React from "react";
 
-export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState }) {
+export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState, }) {
     const isActive = sortState.key === sortKey;
     const isDesc = sortState.dir === "desc";
 
@@ -32,15 +32,15 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
     );
 }
 
-export function SortableTable({ cols, rows, sortState, setSortState, rowKey, playerKey = "id" }) {
+export function SortableTable({ cols, rows, sortState, setSortState, rowKey, playerKey = "id", playerLabel }) {
     return (
         <div className="table-wrapper">
             <table className="table is-striped is-fullwidth">
                 <thead>
                     <tr>
                         <SortTh
-                            label="Player"
-                            title="Player"
+                            label={playerLabel}
+                            title={playerLabel}
                             sortKey={playerKey}
                             defaultDir="asc"
                             sortState={sortState}

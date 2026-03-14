@@ -120,6 +120,7 @@ function Roster() {
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
+                        playerLabel={t.player}
                         cols={forwardCols}
                         rows={sortedForwards}
                         sortState={forwardSort}
@@ -134,6 +135,7 @@ function Roster() {
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
+                        playerLabel={t.player}
                         cols={defenceCols}
                         rows={sortedDefensemens}
                         sortState={defenceSort}
@@ -148,6 +150,7 @@ function Roster() {
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
+                        playerLabel={t.player}
                         cols={goalieCols}
                         rows={sortedGoalies}
                         sortState={goalieSort}

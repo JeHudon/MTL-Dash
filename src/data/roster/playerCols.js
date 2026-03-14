@@ -14,7 +14,7 @@ const titles = {
         sweaterNumber: "Numéro",
         position: "Position",
         catches: "Attrape",
-        shoots: "Tir",
+        shoots: "Lance de la",
         height: "Taille",
         weight: "Poids",
         age: "Âge",
@@ -44,7 +44,7 @@ export function getPlayersCols(type, locale = "fr-FR") {
                     : p.positionCode,
         },
         {
-            label: type === "goalie" ? (locale === "fr-FR" ? "At" : "Ca") : (locale === "fr-FR" ? "Ti" : "Sh"),
+            label: type === "goalie" ? (locale === "fr-FR" ? "Attr" : "Ca") : (locale === "fr-FR" ? "L" : "Sh"),
             title: type === "goalie" ? t.catches : t.shoots,
             key: "shootsCatches",
             defaultDir: "asc",
