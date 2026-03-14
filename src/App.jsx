@@ -15,7 +15,7 @@ function App() {
             <Route path="/" element={<Dash />} />
             {/* Stats avec données prédéfinies ou non */}
             <Route path="/stats" element={<Navigate to="/stats/20252026/2" replace />} />
-            <Route path="/stats/:season/:type" element={<Stats />} />
+            <Route path="/stats/:season/:gameType" element={<Stats />} />
             {/* Roster avec données prédéfinies ou non */}
             <Route path="/roster" element={<Navigate to="/roster/20252026" replace />} />
             <Route path="/roster/:season" element={<Roster />} />
