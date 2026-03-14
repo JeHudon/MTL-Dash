@@ -1,24 +1,46 @@
-# React App 4D6
+# 🏒 MTL Dash
 
-Ce projet fournit un template REACT pour les étudiants du cours INF-4D6 Applications Clientes Web.
+Tableau de bord des Canadiens de Montréal — scores en direct, statistiques, roster, et plus
 
-Les librairies suivantes ont été activées:
+## 🚀 Technologies
 
-- Bulma
-- Font-Awesome
-- React Router V6
+- **React** + **Vite**
+- **Bulma** (CSS framework)
+- **React Router** (navigation)
+- **NHL API** (données en temps réel)
 
-Pour l'utiliser, dans le dossier où vous voulez créer le projet, utiliser les commandes suivantes
-
+## ⚙️ Installation
 ```bash
-npm install degit --global
-npx degit glachancecmaisonneuve/reacttemplate nomduprojet
-code nomprojet
+# Cloner le projet
+git clone https://github.com/ton-user/mtl-dash.git
+cd mtl-dash
+
+# Installer les dépendances
+npm install
+
+# Lancer en développement
+npm run dev
+
+# Compiler pour production
+npm run build
 ```
 
-Ensuite, dans Visual Studio Code, ouvrir un terminal et exécuter les commandes suivantes
+## 🔌 API
 
-```bash
-npm install
-npm run dev
+Toutes les données proviennent de l'API publique de la LNH :
+```
+https://api-web.nhle.com/v1/
+```
+
+Les appels sont proxifiés via Vite pour éviter les problèmes de CORS :
+```js
+// vite.config.js
+server: {
+    proxy: {
+        '/api': {
+            target: 'https://api-web.nhle.com/v1',
+            rewrite: (path) => path.replace(/^\/api/, '')
+        }
+    }
+}
 ```
