@@ -65,14 +65,28 @@ function Dash() {
             const suffixes = ["", "ST", "ND", "RD"];
             const suffix = suffixes[game.period] ?? "TH";
 
-            if (game.clock.inIntermission) return <>{game.period}{suffix} INT</>;
-            return <>{game.period}{suffix}</>;
+            if (game.clock.inIntermission)
+                return (
+                    <>
+                        {game.period}
+                        {suffix} INT
+                    </>
+                );
+            return (
+                <>
+                    {game.period}
+                    {suffix}
+                </>
+            );
         }
 
         if (game.gameState === "OFF" || game.gameState === "FINAL") {
-            return "FINAL" + (game.periodDescriptor.periodType !== "REG"
-                ? `/${game.periodDescriptor.periodType}`
-                : "");
+            return (
+                "FINAL" +
+                (game.periodDescriptor.periodType !== "REG"
+                    ? `/${game.periodDescriptor.periodType}`
+                    : "")
+            );
         }
 
         return "";
@@ -94,24 +108,31 @@ function Dash() {
                     <div className="section">
                         <div className="columns is-multiline is-centered is-variable is-8">
                             {scoreboard?.gamesByDate ? (
-                                scoreboard.gamesByDate.flatMap((day) =>
-                                    day.games.map((game) => {
-                                        const isFuture = game.gameState === "FUT" || game.gameState === "PRE";
+                                scoreboard.gamesByDate
+                                    .flatMap((day) => day.games)
+                                    .slice(0, 10)
+                                    .map((game) => {
+                                        const isFuture =
+                                            game.gameState === "FUT" || game.gameState === "PRE";
 
-                                        const gameDate = new Date(game.startTimeUTC).toLocaleDateString("en-US", {
+                                        const gameDate = new Date(
+                                            game.startTimeUTC,
+                                        ).toLocaleDateString("en-US", {
                                             month: "short",
                                             day: "numeric",
                                         });
 
                                         return (
-                                            <div className="column is-3" key={game.id}>
+                                            <div className="column is-one-fifth" key={game.id}>
                                                 <div className="box game-card">
                                                     <div className="game-date">{gameDate}</div>
 
                                                     <div className="game-info">
                                                         {/* Statut du match et horloge */}
                                                         <div className="game-status-wrapper">
-                                                            <div className={getGameStatusClass(game)}>
+                                                            <div
+                                                                className={getGameStatusClass(game)}
+                                                            >
                                                                 {getGameStatus(game)}
                                                             </div>
 
@@ -119,11 +140,17 @@ function Dash() {
                                                                 <span className="time">
                                                                     <span className="live-indicator"></span>
                                                                     {game.clock.timeRemaining}
-                                                                    {!game.clock.running && game.clock.inIntermission
-                                                                        ? " Zamboni"
-                                                                        : !game.clock.running
-                                                                            ? <Icon path={mdiWhistle} size={0.7} />
-                                                                            : ""}
+                                                                    {!game.clock.running &&
+                                                                    game.clock.inIntermission ? (
+                                                                        " Zamboni"
+                                                                    ) : !game.clock.running ? (
+                                                                        <Icon
+                                                                            path={mdiWhistle}
+                                                                            size={0.7}
+                                                                        />
+                                                                    ) : (
+                                                                        ""
+                                                                    )}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -133,10 +160,24 @@ function Dash() {
                                                             const team = game[side];
                                                             return (
                                                                 <p className="team-row" key={side}>
-                                                                    <img src={team.logo} alt={team.commonName.default} width={50} />
+                                                                    <img
+                                                                        src={team.logo}
+                                                                        alt={
+                                                                            team.commonName.default
+                                                                        }
+                                                                        width={50}
+                                                                    />
                                                                     {team.abbrev}
-                                                                    <span className={isFuture ? "record" : "score"}>
-                                                                        {isFuture ? team.record : team.score}
+                                                                    <span
+                                                                        className={
+                                                                            isFuture
+                                                                                ? "record"
+                                                                                : "score"
+                                                                        }
+                                                                    >
+                                                                        {isFuture
+                                                                            ? team.record
+                                                                            : team.score}
                                                                     </span>
                                                                 </p>
                                                             );
@@ -144,17 +185,22 @@ function Dash() {
 
                                                         {/* Broadcasts filtrés par pays */}
                                                         <p className="tv-broadcast">
-                                                            {isFuture && game.tvBroadcasts
-                                                                .filter((tv) => !location || tv.countryCode === location.country)
-                                                                .map((tv) => tv.network)
-                                                                .join(", ")}
+                                                            {isFuture &&
+                                                                game.tvBroadcasts
+                                                                    .filter(
+                                                                        (tv) =>
+                                                                            !location ||
+                                                                            tv.countryCode ===
+                                                                                location.country,
+                                                                    )
+                                                                    .map((tv) => tv.network)
+                                                                    .join(", ")}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         );
-                                    }),
-                                )
+                                    })
                             ) : (
                                 <p>Loading...</p>
                             )}

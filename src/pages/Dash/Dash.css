@@ -16,13 +16,26 @@
     height: 100%;
 }
 
-.column.is-3 {
+/* .column.is-one-fifth {
     display: flex;
 }
 
-.column.is-3 .box {
+.column.is-one-fifth .box {
     flex: 1;
     padding-bottom: 10px;
+} */
+
+.game-card {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    height: 175px !important;
+    width: 240px !important;
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .game-status-wrapper {
@@ -107,17 +120,6 @@
 
 .game-info {
     flex: 1;
-}
-
-.game-card {
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.game-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 .live-indicator {
