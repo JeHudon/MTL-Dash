@@ -19,25 +19,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 48px 12px;
 }
-
 
 .scoreboard-row {
     display: flex;
     align-items: center;
     gap: 2rem;
-    width:fit-content ;
+    width: fit-content;
 }
 
 .cards-overflow {
-    width: calc(6 * 240px + 5 * 30px);
+    width: calc(6 * 240px + 5 * 40px);
     overflow: hidden;
     flex-shrink: 0;
 }
 
 .cards-wrapper {
     display: flex;
-    gap: 30px;
+    gap: 40px;
 }
 
 .game-column {

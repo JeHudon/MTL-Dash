@@ -11,7 +11,7 @@ function Dash() {
     const [prevIndex, setPrevIndex] = useState(3);
     const gamesPerPage = 6;
     const cardWidth = 240;
-    const gap = 30;
+    const gap = 40;
 
     useEffect(() => {
         let timeout;
@@ -103,6 +103,9 @@ function Dash() {
 
     const allGames = scoreboard?.gamesByDate?.flatMap((day) => day.games) ?? [];
     const maxIndex = Math.max(0, allGames.length - gamesPerPage);
+    const distance = Math.abs(startIndex - prevIndex);
+    const duration = Math.min(0.3 + distance * 0.1, 1.0);
+    console.log("maxIndex:", maxIndex, "startIndex:", startIndex, "distance", distance);
 
     return (
         <div className="is-fullwidth backsplash">
@@ -129,7 +132,7 @@ function Dash() {
                                         className="cards-wrapper"
                                         style={{
                                             transform: `translateX(${-startIndex * (cardWidth + gap)}px)`,
-                                            transition: `transform ${Math.min(0.2 + startIndex * 0.05, 0.8)}s ease`,
+                                            transition: `transform ${duration}s ease`,
                                         }}
                                     >
                                         {allGames.map((game, i) => (
