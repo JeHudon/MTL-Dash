@@ -7,14 +7,21 @@ import { mdiWhistle } from "@mdi/js";
 function Dash() {
     const [scoreboard, setScoreboard] = useState(null);
     const [location, setLocation] = useState(null);
+    const [startIndex, setStartIndex] = useState(3);
+    const [prevIndex, setPrevIndex] = useState(3);
+    const gamesPerPage = 6;
+    const cardWidth = 240;
+    const gap = 30;
 
-    // Fetch scoreboard, poll every 20s si live sinon 60s
     useEffect(() => {
         let timeout;
 
         const fetchScoreboard = async () => {
             const data = await getScoreboard();
             setScoreboard(data);
+
+            const games = data?.gamesByDate?.flatMap((day) => day.games) ?? [];
+            setStartIndex(Math.min(3, Math.max(0, games.length - gamesPerPage)));
 
             const isLive = data?.gamesByDate?.some((day) =>
                 day.games.some((g) => g.gameState === "LIVE" || g.gameState === "CRIT"),
@@ -23,7 +30,6 @@ function Dash() {
             timeout = setTimeout(fetchScoreboard, isLive ? 20000 : 60000);
         };
 
-        // Ne pas fetcher si l'onglet est caché
         if (!document.hidden) fetchScoreboard();
 
         const onVisibilityChange = () => {
@@ -42,7 +48,6 @@ function Dash() {
         };
     }, []);
 
-    // Fetch la location pour filtrer les broadcasts
     useEffect(() => {
         const fetchLocation = async () => {
             const data = await getLocation();
@@ -51,7 +56,6 @@ function Dash() {
         fetchLocation();
     }, []);
 
-    // Formatte le statut du match selon le gameState
     function getGameStatus(game) {
         if (game.gameState === "FUT" || game.gameState === "PRE") {
             return new Date(game.startTimeUTC).toLocaleTimeString("en-CA", {
@@ -61,10 +65,9 @@ function Dash() {
             });
         }
 
-        if (game.gameState === "LIVE") {
+        if (game.gameState === "LIVE" || game.gameState === "CRIT") {
             const suffixes = ["", "ST", "ND", "RD"];
             const suffix = suffixes[game.period] ?? "TH";
-
             if (game.clock.inIntermission)
                 return (
                     <>
@@ -92,43 +95,59 @@ function Dash() {
         return "";
     }
 
-    // Retourne la classe CSS selon le gameState
     function getGameStatusClass(game) {
         if (game.gameState === "LIVE" && !game.clock?.inIntermission) return "game-status-live";
         if (game.gameState === "CRIT") return "game-status-crit";
         return "game-status";
     }
 
+    const allGames = scoreboard?.gamesByDate?.flatMap((day) => day.games) ?? [];
+    const maxIndex = Math.max(0, allGames.length - gamesPerPage);
+
     return (
-        <>
-            <div className="is-fullwidth backsplash">
-                <img src="/Images/more1.PNG" alt="" />
+        <div className="is-fullwidth backsplash">
+            <img src="/Images/more1.PNG" alt="" />
 
-                <div className="container scoreboard">
+            <div className="scoreboard">
+                <div className="scoreboard-content has">
                     <div className="section">
-                        <div className="columns is-multiline is-centered is-variable is-8">
-                            {scoreboard?.gamesByDate ? (
-                                scoreboard.gamesByDate
-                                    .flatMap((day) => day.games)
-                                    .slice(0, 10)
-                                    .map((game) => {
-                                        const isFuture =
-                                            game.gameState === "FUT" || game.gameState === "PRE";
+                        {scoreboard?.gamesByDate ? (
+                            <div className="scoreboard-row">
+                                <button
+                                    className="button nav-button"
+                                    onClick={() => {
+                                        setPrevIndex(startIndex);
+                                        setStartIndex(0);
+                                    }}
+                                    disabled={startIndex === 0}
+                                >
+                                    ‹
+                                </button>
 
-                                        const gameDate = new Date(
-                                            game.startTimeUTC,
-                                        ).toLocaleDateString("en-US", {
-                                            month: "short",
-                                            day: "numeric",
-                                        });
-
-                                        return (
-                                            <div className="column is-one-fifth" key={game.id}>
+                                <div className="cards-overflow">
+                                    <div
+                                        className="cards-wrapper"
+                                        style={{
+                                            transform: `translateX(${-startIndex * (cardWidth + gap)}px)`,
+                                            transition: `transform ${Math.min(0.2 + startIndex * 0.05, 0.8)}s ease`,
+                                        }}
+                                    >
+                                        {allGames.map((game, i) => (
+                                            <div
+                                                className="game-column"
+                                                key={game?.id ?? `empty-${i}`}
+                                            >
                                                 <div className="box game-card">
-                                                    <div className="game-date">{gameDate}</div>
+                                                    <div className="game-date">
+                                                        {new Date(
+                                                            game.startTimeUTC,
+                                                        ).toLocaleDateString("en-US", {
+                                                            month: "short",
+                                                            day: "numeric",
+                                                        })}
+                                                    </div>
 
                                                     <div className="game-info">
-                                                        {/* Statut du match et horloge */}
                                                         <div className="game-status-wrapper">
                                                             <div
                                                                 className={getGameStatusClass(game)}
@@ -136,7 +155,8 @@ function Dash() {
                                                                 {getGameStatus(game)}
                                                             </div>
 
-                                                            {game.gameState === "LIVE" && (
+                                                            {(game.gameState === "LIVE" ||
+                                                                game.gameState === "CRIT") && (
                                                                 <span className="time">
                                                                     <span className="live-indicator"></span>
                                                                     {game.clock.timeRemaining}
@@ -155,9 +175,11 @@ function Dash() {
                                                             )}
                                                         </div>
 
-                                                        {/* Équipes et scores */}
                                                         {["homeTeam", "awayTeam"].map((side) => {
                                                             const team = game[side];
+                                                            const isFuture =
+                                                                game.gameState === "FUT" ||
+                                                                game.gameState === "PRE";
                                                             return (
                                                                 <p className="team-row" key={side}>
                                                                     <img
@@ -183,9 +205,9 @@ function Dash() {
                                                             );
                                                         })}
 
-                                                        {/* Broadcasts filtrés par pays */}
                                                         <p className="tv-broadcast">
-                                                            {isFuture &&
+                                                            {(game.gameState === "FUT" ||
+                                                                game.gameState === "PRE") &&
                                                                 game.tvBroadcasts
                                                                     .filter(
                                                                         (tv) =>
@@ -199,16 +221,28 @@ function Dash() {
                                                     </div>
                                                 </div>
                                             </div>
-                                        );
-                                    })
-                            ) : (
-                                <p>Loading...</p>
-                            )}
-                        </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <button
+                                    className="button nav-button"
+                                    onClick={() => {
+                                        setPrevIndex(startIndex);
+                                        setStartIndex(maxIndex);
+                                    }}
+                                    disabled={startIndex >= maxIndex}
+                                >
+                                    ›
+                                </button>
+                            </div>
+                        ) : (
+                            <p>Loading...</p>
+                        )}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

@@ -97,7 +97,7 @@ function Navbar() {
 
                 {/* Boutons de langue */}
                 <div className="navbar-end">
-                    <div className="navbar-item">
+                    <div className="navbar-item" style={{paddingRight: "70px"}}>
                         <div className="buttons">
                             <button
                                 className={`button ${locale === "en-US" ? "is-active" : ""}`}

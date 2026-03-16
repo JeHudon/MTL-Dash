@@ -8,34 +8,65 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: visible;
 }
 
-.columns.is-multiline .box {
+.scoreboard-content {
+    width: 100%;
+}
+
+.scoreboard-content .section {
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
-/* .column.is-one-fifth {
+
+.scoreboard-row {
     display: flex;
+    align-items: center;
+    gap: 2rem;
+    width:fit-content ;
 }
 
-.column.is-one-fifth .box {
-    flex: 1;
-    padding-bottom: 10px;
-} */
+.cards-overflow {
+    width: calc(6 * 240px + 5 * 30px);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.cards-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+.game-column {
+    flex: 0 0 240px;
+    width: 240px;
+}
 
 .game-card {
+    height: 175px !important;
+    width: 100%;
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
-    height: 175px !important;
-    width: 240px !important;
 }
 
 .game-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.game-date {
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.9rem;
+    min-width: 55px;
+}
+
+.game-info {
+    flex: 1;
 }
 
 .game-status-wrapper {
@@ -45,35 +76,26 @@
     margin-bottom: 10px;
 }
 
-.game-status {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: #efefef;
-    font-size: 0.8em;
-    font-weight: 700;
-    width: fit-content;
-}
-
-.game-status-live {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    background: green;
-    font-size: 0.8em;
-    font-weight: 700;
-    width: fit-content;
-    color: white;
-}
-
+.game-status,
+.game-status-live,
 .game-status-crit {
     display: inline-block;
     padding: 3px 10px;
     border-radius: 20px;
-    background: red;
     font-size: 0.8em;
     font-weight: 700;
     width: fit-content;
+}
+
+.game-status {
+    background: #efefef;
+}
+.game-status-live {
+    background: green;
+    color: white;
+}
+.game-status-crit {
+    background: red;
     color: white;
 }
 
@@ -83,43 +105,6 @@
     gap: 8px;
     font-size: 0.9em;
     font-weight: 600;
-}
-
-.team-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-}
-
-.team-row span.score {
-    margin-left: auto;
-    padding-right: 10px;
-}
-
-.team-row span.record {
-    margin-left: auto;
-    padding-right: 10px;
-    font-size: 0.75em;
-    font-weight: normal;
-}
-
-.tv-broadcast {
-    font-size: 0.7em;
-    margin-top: 2px;
-    text-align: center;
-}
-
-.game-date {
-    font-weight: 600;
-    text-align: center;
-    min-width: 55px;
-    font-size: 0.9rem;
-}
-
-.game-info {
-    flex: 1;
 }
 
 .live-indicator {
@@ -144,4 +129,31 @@
         transform: scale(0.9);
         opacity: 1;
     }
+}
+
+.team-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.team-row span.score {
+    margin-left: auto;
+    padding-right: 10px;
+}
+
+.team-row span.record {
+    margin-left: auto;
+    padding-right: 10px;
+    font-size: 0.75em;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+.tv-broadcast {
+    font-size: 0.7em;
+    margin-top: 2px;
+    text-align: center;
 }
