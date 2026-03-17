@@ -15,6 +15,7 @@ export const translations = {
         stats: "Stats",
         schedule: "Schedule",
         standings: "Standings",
+        shots: "Shots",
     },
     "fr-FR": {
         regular: "Régulière",
@@ -32,6 +33,7 @@ export const translations = {
         stats: "Stats",
         schedule: "Calendrier",
         standings: "Classement",
+        shots: "Tirs",
     },
 };
 

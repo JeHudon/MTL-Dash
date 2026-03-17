@@ -51,6 +51,7 @@
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
+    padding-top: 20px;
 }
 
 .game-card:hover {
@@ -73,7 +74,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .game-status,
@@ -137,6 +138,7 @@
     gap: 10px;
     font-size: 1.2em;
     font-weight: bold;
+    padding-top: 5px;
 }
 
 .team-row span.score {
@@ -156,4 +158,33 @@
     font-size: 0.7em;
     margin-top: 2px;
     text-align: center;
+}
+
+.shots {
+    font-size: 0.7em;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+
+.team-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+}
+
+.team-abbrev {
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.shots {
+    font-size: 0.7em;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
 }
