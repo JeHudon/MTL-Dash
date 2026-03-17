@@ -1,15 +1,21 @@
 # 🏒 MTL Dash
 
-Tableau de bord des Canadiens de Montréal — scores en direct, statistiques, roster, et plus
+Tableau de bord des Canadiens de Montréal — scores en direct, statistiques, roster, et plus.
 
-## 🚀 Technologies
+🌐 **[mtl-dash.hudonj18.workers.dev](https://mtl-dash.hudonj18.workers.dev/)** · Hébergé gratuitement sur Cloudflare
 
-- **React** + **Vite**
-- **Bulma** (CSS framework)
-- **React Router** (navigation)
-- **NHL API** (données en temps réel)
+---
 
-## ⚙️ Installation
+## Technologies
+
+- **React** + **Vite** (Front-end et build)  
+- **Bulma** (CSS framework)  
+- **React Router** (Navigation)  
+- **NHL API** (Données en temps réel)  
+
+
+## Installation
+
 ```bash
 # Cloner le projet
 git clone https://github.com/jehudon/mtl-dash.git
@@ -25,22 +31,11 @@ npm run dev
 npm run build
 ```
 
-## 🔌 API
+
+## API
 
 Toutes les données proviennent de l'API publique de la LNH :
+
 ```
 https://api-web.nhle.com/v1/
-```
-
-Les appels sont proxifiés via Vite pour éviter les problèmes de CORS :
-```js
-// vite.config.js
-server: {
-    proxy: {
-        '/api': {
-            target: 'https://api-web.nhle.com/v1',
-            rewrite: (path) => path.replace(/^\/api/, '')
-        }
-    }
-}
 ```
