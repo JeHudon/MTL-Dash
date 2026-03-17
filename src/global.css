@@ -1,22 +1,21 @@
 /* Navbar */
-
 .navbar-item {
     font-size: 1.4em;
-    margin:20px;
+    margin: 20px;
     padding: 0;
-    }
+}
 
 .nav-text {
     color: #192168;
 }
 
 .navbar-item a:hover {
-  text-decoration: underline; 
-  text-decoration-color: #AF1E2D; 
+    text-decoration: underline;
+    text-decoration-color: #af1e2d;
 }
 
 /* Shared Stats et Roster */
-
+/* Wrapper table */
 .table-wrapper {
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -25,7 +24,7 @@
     overflow-x: auto;
 }
 
-/* Table layout */
+/* Style de la table */
 .table {
     border-collapse: collapse !important;
     border-spacing: 0;
@@ -33,7 +32,7 @@
     width: 100%;
 }
 
-/* Header cells */
+/* Cellules d'en-tête */
 .table thead tr th {
     font-weight: 700;
     position: sticky;
@@ -59,7 +58,6 @@
     text-align: left;
     vertical-align: middle;
 }
-
 .table th:first-child {
     padding-left: 20px !important;
 }
@@ -73,30 +71,31 @@
     height: 100%;
 }
 
+/* Image de joueur */
 .player-cell img {
     border-radius: 50%;
-    background-color: #AF1E2D;
+    background-color: #af1e2d;
 }
 
+/* Abbréviations */
 abbr {
     text-decoration: none;
 }
 
-/* Couleur th sorted (AI) */
+/* Couleur th sorted*/
 .active-sort {
     background-color: #b3e7ff !important;
 }
 
-/* Couleur td sorted (AI) */
+/* Couleur td sorted */
 .table tbody tr td.active-sort-col {
     background-color: #cceeff;
 }
 
+/* Animation loading table */
 .table tbody tr {
     animation: fadeIn 0.25s ease;
-
 }
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -126,12 +125,10 @@ abbr {
     cursor: pointer;
     transition: all 0.15s ease;
 }
-
 .custom-select-button i {
     margin-left: auto;
     transition: transform 0.25s ease;
 }
-
 .custom-select-button i.rotate {
     transform: rotate(180deg);
 }
@@ -142,6 +139,7 @@ abbr {
     min-width: 200px;
 }
 
+/* Dropdown en general */
 .dropdown-content {
     border-radius: 6px;
     max-height: 250px;
@@ -149,6 +147,7 @@ abbr {
     overflow-x: hidden;
 }
 
+/* Chaque element dropdown */
 .dropdown-item {
     display: flex;
     align-items: center;
@@ -158,6 +157,7 @@ abbr {
     transition: all 0.15s ease;
 }
 
+/* ligne de séparation item */
 hr {
     margin: 0;
     padding: 0;

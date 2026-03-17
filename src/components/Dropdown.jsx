@@ -1,4 +1,3 @@
-// src/components/Dropdown.jsx
 import React from "react";
 
 function Dropdown({ id, label, options, openDropdown, setOpenDropdown, onSelect }) {

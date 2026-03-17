@@ -2,6 +2,7 @@
     position: relative;
 }
 
+/* Styles du scoreboard */
 .scoreboard {
     position: absolute;
     inset: 0;
@@ -29,6 +30,7 @@
     width: fit-content;
 }
 
+/* Wrapper des cards */
 .cards-overflow {
     width: calc(6 * 240px + 5 * 40px);
     overflow: hidden;
@@ -40,6 +42,7 @@
     gap: 40px;
 }
 
+/* Style de chaque cards */
 .game-column {
     flex: 0 0 240px;
     width: 240px;
@@ -53,12 +56,13 @@
         box-shadow 0.2s ease;
     padding-top: 20px;
 }
-
 .game-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
+/* Style éléments intérieurs cards */
+/* Date */
 .game-date {
     font-weight: 600;
     text-align: center;
@@ -70,6 +74,7 @@
     flex: 1;
 }
 
+/* Wrapper status + temps */
 .game-status-wrapper {
     display: flex;
     align-items: center;
@@ -77,6 +82,7 @@
     margin-bottom: 5px;
 }
 
+/* Status */
 .game-status,
 .game-status-live,
 .game-status-crit {
@@ -87,7 +93,6 @@
     font-weight: 700;
     width: fit-content;
 }
-
 .game-status {
     background: #efefef;
 }
@@ -100,6 +105,7 @@
     color: white;
 }
 
+/* Time */
 .time {
     display: inline-flex;
     align-items: center;
@@ -108,6 +114,7 @@
     font-weight: 600;
 }
 
+/* Point rouge live */
 .live-indicator {
     display: inline-block;
     width: 6px;
@@ -116,7 +123,6 @@
     background: red;
     animation: livePulse 3s infinite;
 }
-
 @keyframes livePulse {
     0% {
         transform: scale(0.9);
@@ -132,6 +138,15 @@
     }
 }
 
+/* Icone zamboni */
+.icon-img {
+    width: 16.8px;
+    height: 16.8px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+/* Wrapper chaque team */
 .team-row {
     display: flex;
     align-items: center;
@@ -141,11 +156,36 @@
     padding-top: 5px;
 }
 
+/* Wrapper abbrev + shots */
+.team-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+}
+
+/* Équipe */
+.team-abbrev {
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* Nombre de shots */
+.shots {
+    font-size: 0.7em;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+
+/* Si live our final */
 .team-row span.score {
     margin-left: auto;
     padding-right: 10px;
 }
-
+/* Si future */
 .team-row span.record {
     margin-left: auto;
     padding-right: 10px;
@@ -154,37 +194,9 @@
     white-space: nowrap;
 }
 
+/* Postes Tv */
 .tv-broadcast {
     font-size: 0.7em;
     margin-top: 2px;
     text-align: center;
-}
-
-.shots {
-    font-size: 0.7em;
-    font-weight: normal;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
-}
-
-.team-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    flex: 1;
-}
-
-.team-abbrev {
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 1;
-}
-
-.shots {
-    font-size: 0.7em;
-    font-weight: normal;
-    line-height: 1;
-    margin: 0;
-    padding: 0;
 }

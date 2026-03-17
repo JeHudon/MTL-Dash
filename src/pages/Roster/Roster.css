@@ -1,3 +1,4 @@
+/* Cellules autre que première */
 .roster-page .table.is-striped td:not(:first-child),
 .roster-page .table.is-striped th:not(:first-child) {
     width: 60px !important;
@@ -7,6 +8,7 @@
     vertical-align: middle;
 }
 
+/* Avant dernieres cellules */
 .roster-page .table.is-striped td:nth-last-child(2),
 .roster-page .table.is-striped th:nth-last-child(2) {
     width: 135px !important;
@@ -16,6 +18,7 @@
     padding-left: 25px !important;
 }
 
+/* Dernieres cellules */
 .roster-page .table.is-striped td:last-child,
 .roster-page .table.is-striped th:last-child {
     width: 200px !important;

@@ -2,8 +2,7 @@ import Icon from "@mdi/react";
 import { mdiWhistle } from "@mdi/js";
 import { useLocale } from "../context/LocaleContext.jsx";
 import { useTranslation } from "../i18n.js";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getGameInfo } from "../api.js";
 
 function GameCard({ game, location }) {
@@ -14,6 +13,7 @@ function GameCard({ game, location }) {
     const isLive = game.gameState === "LIVE" || game.gameState === "CRIT";
     const gameId = game.id;
 
+    // Quand crée objet et pas Futur, fetch au 20 secondes pour updates
     useEffect(() => {
         if (isFuture) return;
 
@@ -46,11 +46,13 @@ function GameCard({ game, location }) {
         };
     }, [gameId, isLive, isFuture]);
 
+    // Retourne shot dépendament coté
     function getSog(side) {
         if (!gameInfo) return "-";
         return gameInfo[`${side}Team`]?.sog ?? "-";
     }
 
+    // Donne Status de la game
     function getGameStatus() {
         if (isFuture) {
             return new Date(game.startTimeUTC).toLocaleTimeString(locale, {
@@ -90,6 +92,7 @@ function GameCard({ game, location }) {
         return "";
     }
 
+    // Change couleur période selon gameState
     function getGameStatusClass() {
         if (game.gameState === "LIVE" && !game.clock?.inIntermission) return "game-status-live";
         if (game.gameState === "CRIT") return "game-status-crit";
@@ -98,6 +101,7 @@ function GameCard({ game, location }) {
 
     return (
         <div className="box game-card">
+            {/* Date */}
             <div className="game-date">
                 {new Date(game.startTimeUTC).toLocaleDateString(locale, {
                     month: "long",
@@ -105,6 +109,7 @@ function GameCard({ game, location }) {
                 })}
             </div>
 
+            {/* Status de la game */}
             <div className="game-info">
                 <div className="game-status-wrapper">
                     <div className={getGameStatusClass()}>{getGameStatus()}</div>
@@ -113,7 +118,7 @@ function GameCard({ game, location }) {
                             <span className="live-indicator"></span>
                             {game.clock.timeRemaining}
                             {!game.clock.running && game.clock.inIntermission ? (
-                                " Zamboni"
+                                <img src="/Icons/zamboni.png" className="icon-img" />
                             ) : !game.clock.running ? (
                                 <Icon path={mdiWhistle} size={0.7} />
                             ) : (
@@ -123,6 +128,7 @@ function GameCard({ game, location }) {
                     )}
                 </div>
 
+                {/* Teams + Shots + Score  ou Record */}
                 {["home", "away"].map((side) => {
                     const team = game[`${side}Team`];
                     return (
@@ -143,6 +149,7 @@ function GameCard({ game, location }) {
                     );
                 })}
 
+                {/* Postes de TV */}
                 <p className="tv-broadcast">
                     {isFuture &&
                         game.tvBroadcasts

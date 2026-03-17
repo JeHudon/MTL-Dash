@@ -1,4 +1,4 @@
-// statsSkaterCols.js
+// Titres en anglais et français
 const titles = {
     "en-US": {
         position: "Position",
@@ -38,6 +38,8 @@ const titles = {
     },
 };
 
+
+// Retourne liste des colonnes nécessaire pour les statistiques d'un patineur
 export function getSkaterCols(formatTime, locale = "fr-FR") {
     const t = titles[locale] ?? titles["fr-FR"];
     return [

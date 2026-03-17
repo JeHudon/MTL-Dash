@@ -1,4 +1,4 @@
-// statsGoalieCols.js
+// Titres en anglais et français
 const titles = {
     "en-US": {
         gamesPlayed: "Games Played",
@@ -38,6 +38,7 @@ const titles = {
     },
 };
 
+// Retourne liste des colonnes nécessaire pour les statistiques d'un goalie
 export function getGoalieCols(formatTime, locale = "fr-FR") {
     const t = titles[locale] ?? titles["fr-FR"];
     return [

@@ -1,3 +1,4 @@
+/* Cellules autre que première */
 .stats-page .table.is-striped td:not(:first-child),
 .stats-page .table.is-striped th:not(:first-child) {
     width: 60px !important;

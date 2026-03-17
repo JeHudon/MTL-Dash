@@ -5,6 +5,7 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
     const isActive = sortState.key === sortKey;
     const isDesc = sortState.dir === "desc";
 
+    // Donne prochain State de sort
     function handleClick() {
         if (!sortKey) return;
         if (isActive) {
@@ -38,6 +39,7 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
             <table className="table is-striped is-fullwidth">
                 <thead>
                     <tr>
+                        {/* Nom + photo joueur */}
                         <SortTh
                             label={playerLabel}
                             title={playerLabel}
@@ -46,6 +48,7 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
                             sortState={sortState}
                             setSortState={setSortState}
                         />
+                        {/* Colonnes selon données */}
                         {cols.map((col) => (
                             <SortTh
                                 key={col.label}
@@ -59,6 +62,7 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
                         ))}
                     </tr>
                 </thead>
+                {/* Lignes selon données */}
                 <tbody>
                     {rows.map((player) => (
                         <tr key={player[rowKey]}>

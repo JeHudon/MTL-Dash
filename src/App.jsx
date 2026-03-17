@@ -4,11 +4,6 @@ import Stats from "./pages/Stats/Stats.jsx";
 import Roster from "./pages/Roster/Roster.jsx";
 import Navbar from "./components/Navbar.jsx";
 
-const scoreboard = document.getElementById("scoreboard");
-if (scoreboard) {
-    createRoot(scoreboard).render(<Dash />);
-}
-
 function App() {
     return (
         <>

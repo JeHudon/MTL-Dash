@@ -1,3 +1,4 @@
+// Traductions pour pouvoir switch En/Fr
 export const translations = {
     "en-US": {
         regular: "Regular Season",

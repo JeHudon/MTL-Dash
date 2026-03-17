@@ -1,3 +1,4 @@
+// Titres en anglais et français
 const titles = {
     "en-US": {
         sweaterNumber: "Sweater Number",
@@ -23,6 +24,7 @@ const titles = {
     },
 };
 
+// Retourne liste des colonnes nécessaire pour la liste d'équipe
 export function getPlayersCols(type, locale = "fr-FR") {
     const t = titles[locale] ?? titles["fr-FR"];
 

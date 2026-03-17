@@ -7,6 +7,7 @@ function Dash() {
     const [scoreboard, setScoreboard] = useState(null);
     const [location, setLocation] = useState(null);
 
+    // Récupère scoreboard, et si une game est live, refresh toute les 20 secondes
     useEffect(() => {
         let timeout;
 
@@ -41,6 +42,7 @@ function Dash() {
         };
     }, []);
 
+    // Récupère localisation (pays) du user
     useEffect(() => {
         const fetchLocation = async () => {
             const data = await getLocation();
