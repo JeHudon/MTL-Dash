@@ -22,7 +22,7 @@ const titles = {
         position: "Position",
         gamesPlayed: "Matchs joués",
         goals: "Buts",
-        assists: "Passes",
+        assists: "Aides",
         points: "Points",
         plusMinus: "Plus/Moins",
         penaltyMinutes: "Minutes de pénalité",
