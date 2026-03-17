@@ -1,5 +1,5 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
+  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "mtl-dash",
   "compatibility_date": "2025-09-27",
   "observability": {
@@ -11,5 +11,8 @@
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "pages_build_output_dir": "./dist"
+  "main": "./src/worker.js",
+  "site": {
+    "bucket": "./dist"
+  }
 }
