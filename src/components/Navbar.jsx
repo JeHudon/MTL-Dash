@@ -33,22 +33,19 @@ function Navbar() {
             className="navbar"
             role="navigation"
             aria-label="main navigation"
-            style={{ height: "125px", margin: "5px" }}
         >
             {/* Logo et nom de l'équipe */}
-            <div className="navbar-brand" style={{ padding: "0 100px" }}>
+            <div className="navbar-brand">
                 <div className="navbar-item">
                     <img
                         src="/Images/logo.png"
                         alt="Logo"
-                        style={{ width: "auto", maxHeight: "100%" }}
                     />
                 </div>
                 <div className="navbar-item">
                     <img
                         src="/Images/text.png"
                         alt="Logo"
-                        style={{ width: "auto", maxHeight: "100%" }}
                     />
                 </div>
             </div>
