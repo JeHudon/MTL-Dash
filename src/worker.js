@@ -1,7 +1,12 @@
 export default {
-    async fetch(request, env, ctx) {
-        // Static assets are served automatically by Cloudflare
-        // Add any custom Worker logic here if needed
-        return env.ASSETS.fetch(request);
+    async fetch(request) {
+        const url = new URL(request.url);
+        const nhlUrl =
+            "https://api-web.nhle.com/v1" + url.pathname.replace("/api", "") + url.search;
+
+        return fetch(nhlUrl, {
+            headers: request.headers,
+            method: request.method,
+        });
     },
 };
