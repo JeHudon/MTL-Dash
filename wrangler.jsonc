@@ -6,13 +6,9 @@
     "enabled": true
   },
   "assets": {
+    "directory": "./dist",
     "not_found_handling": "single-page-application"
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  "main": "./src/worker.js",
-  "site": {
-    "bucket": "./dist"
-  }
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "./src/worker.js"
 }
