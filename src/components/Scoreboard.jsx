@@ -37,6 +37,7 @@ function Scoreboard({ games, location }) {
     const clampedStart = Math.min(startIndex, maxIndex);
     const distance = Math.abs(clampedStart - prevIndex);
     const duration = Math.min(0.3 + distance * 0.1, 1.0);
+    const step = gamesPerPage >= 4 ? gamesPerPage - 1 : gamesPerPage;
 
     return (
         <div className="scoreboard-measure" ref={wrapperRef}>
@@ -45,14 +46,14 @@ function Scoreboard({ games, location }) {
                     className="button nav-button"
                     onClick={() => {
                         setPrevIndex(clampedStart);
-                        setStartIndex(Math.max(0, clampedStart - gamesPerPage));
+                        setStartIndex(Math.max(0, clampedStart - step));
                     }}
                     disabled={clampedStart === 0}
                 >
                     ‹
                 </button>
 
-                <div className="cards-overflow" style={{ width: exactWidth, flex: "none" }}>
+                <div className="cards-overflow" style={{ width: exactWidth }}>
                     <div
                         className="cards-wrapper"
                         style={{
@@ -72,7 +73,7 @@ function Scoreboard({ games, location }) {
                     className="button nav-button"
                     onClick={() => {
                         setPrevIndex(clampedStart);
-                        setStartIndex(Math.min(maxIndex, clampedStart + gamesPerPage));
+                        setStartIndex(Math.min(maxIndex, clampedStart + step));
                     }}
                     disabled={clampedStart >= maxIndex}
                 >
