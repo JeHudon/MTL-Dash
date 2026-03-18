@@ -9,11 +9,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .scoreboard-content {
     width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .scoreboard-content .section {
@@ -21,20 +23,28 @@
     justify-content: center;
     align-items: center;
     padding: 48px 12px;
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+.scoreboard-measure {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .scoreboard-row {
     display: flex;
     align-items: center;
     gap: 2rem;
-    width: fit-content;
+    width: fit-content;  /* no longer 100% */
 }
 
 /* Wrapper des cards */
 .cards-overflow {
-    width: calc(6 * 240px + 5 * 40px);
+    flex: 1;
+    min-width: 0;            /* critical */
     overflow: hidden;
-    flex-shrink: 0;
 }
 
 .cards-wrapper {
