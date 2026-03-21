@@ -42,4 +42,5 @@ export async function getGameInfo(gameId) {
 
 // https://api-web.nhle.com/v1/club-schedule/MTL/month/now : schedule du mois de mars 2026 (par mois)
 // https://api-web.nhle.com/v1/standings/now : classement du 6 mars 2026 (par date)
+// https://api-web.nhle.com/v1/stats/rest/en/franchise?sort=fullName&include=lastSeason.id&include=firstSeason.id : liste teams par années
 // https://api-web.nhle.com/v1/prospects/MTL : prospects
