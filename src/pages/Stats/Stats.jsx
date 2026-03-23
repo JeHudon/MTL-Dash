@@ -130,7 +130,7 @@ function Stats() {
                     </div>
 
                     {/* Skaters table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Skaters">
                         {t.skaters}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -145,7 +145,7 @@ function Stats() {
                     />
 
                     {/* Goalies table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
                         {t.goalies}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -157,6 +157,7 @@ function Stats() {
                         setSortState={setGoalieSort}
                         rowKey="playerId"
                         playerKey="lastName"
+                        
                     />
                 </div>
             </div>

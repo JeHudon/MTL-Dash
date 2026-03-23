@@ -115,7 +115,7 @@ function Roster() {
                     </div>
 
                     {/* Forwards table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Forwards">
                         {t.forwards}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -130,7 +130,7 @@ function Roster() {
                     />
 
                     {/* DMens table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Defensemen">
                         {t.defensemen}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -145,7 +145,7 @@ function Roster() {
                     />
 
                     {/* Goalies table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
+                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
                         {t.goalies}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
