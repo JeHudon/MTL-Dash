@@ -64,6 +64,21 @@ export const translations = {
         birthDate: "Date of Birth",
         birthplace: "Birthplace",
 
+        // --- Standings titles ---
+        rank: "Rank",
+        lbl_team: "Team",
+        pointPctg: "Points %",
+        regulationWins: "Regulation Wins",
+        regulationPlusOtWins: "Regulation plus Overtime Wins",
+        goalsFor: "Goals For",
+        goalDifferential: "Goal Diff",
+        homeRecord: "Home",
+        awayRecord: "Away",
+        shootoutRecord: "SO Record",
+        l10: "L10",
+        streak: "Streak",
+        ties: "Ties",
+
         // --- Shared labels (skaters & goalies) ---
         lbl_gamesPlayed: "GP",
         lbl_goals: "G",
@@ -106,6 +121,21 @@ export const translations = {
         lbl_age: "Age",
         lbl_birthDate: "Born",
         lbl_birthplace: "Birthplace",
+
+        // --- Standings labels ---
+        lbl_rank: "#",
+        lbl_team: "Team",
+        lbl_pointPctg: "P%",
+        lbl_regulationWins: "RW",
+        lbl_regulationPlusOtWins: "ROW",
+        lbl_goalsFor: "GF",
+        lbl_goalDifferential: "DIFF",
+        lbl_homeRecord: "Home",
+        lbl_awayRecord: "Away",
+        lbl_shootoutRecord: "SO",
+        lbl_l10: "L10",
+        lbl_streak: "STRK",
+        lbl_ties: "T",
     },
 
     fr: {
@@ -172,6 +202,21 @@ export const translations = {
         birthDate: "Date de naissance",
         birthplace: "Lieu de naissance",
 
+        // --- Standings titles ---
+        rank: "Rang",
+        team: "Équipe",
+        pointPctg: "% Points",
+        regulationWins: "Victoires en règlement",
+        regulationPlusOtWins: "VRP",
+        goalsFor: "Buts pour",
+        goalDifferential: "Différentiel",
+        homeRecord: "Domicile",
+        awayRecord: "Extérieur",
+        shootoutRecord: "Fiche TB",
+        l10: "D10",
+        streak: "Séquence",
+        ties: "Nulles",
+
         // --- Shared labels (skaters & goalies) ---
         lbl_gamesPlayed: "PJ",
         lbl_goals: "B",
@@ -214,6 +259,21 @@ export const translations = {
         lbl_age: "Âge",
         lbl_birthDate: "Date de naissance",
         lbl_birthplace: "Lieu de naissance",
+
+        // --- Standings labels ---
+        lbl_rank: "Rang",
+        lbl_team: "Équipe",
+        lbl_pointPctg: "P%",
+        lbl_regulationWins: "VR",
+        lbl_regulationPlusOtWins: "VRP",
+        lbl_goalsFor: "BP",
+        lbl_goalDifferential: "DIFF",
+        lbl_homeRecord: "Dom.",
+        lbl_awayRecord: "Ext.",
+        lbl_shootoutRecord: "TB",
+        lbl_l10: "D10",
+        lbl_streak: "SÉQ",
+        lbl_ties: "N",
     },
 };
 

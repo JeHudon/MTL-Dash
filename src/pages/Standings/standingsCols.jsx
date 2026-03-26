@@ -1,0 +1,173 @@
+// Retourne liste des colonnes nécessaire pour le classement
+export function getStandingsCols(t, hasTies = false) {
+    return [
+        {
+            label: t("lbl_rank"),
+            title: t("rank"),
+            key: "leagueSequence",
+            render: (team) => team.leagueSequence ?? "--",
+        },
+        {
+            label: t("lbl_team"),
+            title: t("team"),
+            key: "teamName",
+            render: (team) => (
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        padding: "0 12px",
+                        height: "100%",
+                    }}
+                >
+                    <img
+                        src={team.teamLogo}
+                        alt={team.teamAbbrev?.default}
+                        style={{ width: "50px" }}
+                    />
+                    <span>
+                        {t("locale") === "fr"
+                            ? (team.teamName?.fr ?? team.teamName?.default)
+                            : team.teamName?.default}
+                    </span>
+                </div>
+            ),
+        },
+        {
+            label: t("lbl_gamesPlayed"),
+            title: t("gamesPlayed"),
+            key: "gamesPlayed",
+            render: (team) => team.gamesPlayed ?? "--",
+        },
+        {
+            label: t("lbl_wins"),
+            title: t("wins"),
+            key: "wins",
+            render: (team) => team.wins ?? "--",
+        },
+        {
+            label: t("lbl_losses"),
+            title: t("losses"),
+            key: "losses",
+            render: (team) => team.losses ?? "--",
+        },
+        // OT losses (modern) ou Ties (saisons anciennes)
+        hasTies
+            ? {
+                  label: t("lbl_ties"),
+                  title: t("ties"),
+                  key: "ties",
+                  render: (team) => team.ties ?? "--",
+              }
+            : {
+                  label: t("lbl_overtimeLosses"),
+                  title: t("overtimeLosses"),
+                  key: "otLosses",
+                  render: (team) => team.otLosses ?? "--",
+              },
+        {
+            label: t("lbl_points"),
+            title: t("points"),
+            key: "points",
+            render: (team) => team.points ?? "--",
+        },
+        {
+            label: t("lbl_pointPctg"),
+            title: t("pointPctg"),
+            key: "pointPctg",
+            render: (team) => team.pointPctg?.toFixed(3) ?? "--",
+        },
+        {
+            label: t("lbl_regulationWins"),
+            title: t("regulationWins"),
+            key: "regulationWins",
+            render: (team) => team.regulationWins ?? "--",
+        },
+        {
+            label: t("lbl_regulationPlusOtWins"),
+            title: t("regulationPlusOtWins"),
+            key: "regulationPlusOtWins",
+            render: (team) => team.regulationPlusOtWins ?? "--",
+        },
+        {
+            label: t("lbl_goalsFor"),
+            title: t("goalsFor"),
+            key: "goalFor",
+            render: (team) => team.goalFor ?? "--",
+        },
+        {
+            label: t("lbl_goalsAgainst"),
+            title: t("goalsAgainst"),
+            key: "goalAgainst",
+            render: (team) => team.goalAgainst ?? "--",
+        },
+        {
+            label: t("lbl_goalDifferential"),
+            title: t("goalDifferential"),
+            key: "goalDifferential",
+            render: (team) => {
+                const diff = team.goalDifferential;
+                if (diff == null) return "--";
+                return diff > 0 ? `+${diff}` : `${diff}`;
+            },
+        },
+        {
+            label: t("lbl_homeRecord"),
+            title: t("homeRecord"),
+            key: "homeWins",
+            render: (team) => {
+                const w = team.homeWins ?? 0;
+                const l = team.homeLosses ?? 0;
+                const ot = team.homeOtLosses ?? 0;
+                const ties = team.homeTies ?? 0;
+                return hasTies ? `${w}-${l}-${ties}` : `${w}-${l}-${ot}`;
+            },
+        },
+        {
+            label: t("lbl_awayRecord"),
+            title: t("awayRecord"),
+            key: "roadWins",
+            render: (team) => {
+                const w = team.roadWins ?? 0;
+                const l = team.roadLosses ?? 0;
+                const ot = team.roadOtLosses ?? 0;
+                const ties = team.roadTies ?? 0;
+                return hasTies ? `${w}-${l}-${ties}` : `${w}-${l}-${ot}`;
+            },
+        },
+        {
+            label: t("lbl_shootoutRecord"),
+            title: t("shootoutRecord"),
+            key: "shootoutWins",
+            render: (team) => {
+                const w = team.shootoutWins ?? 0;
+                const l = team.shootoutLosses ?? 0;
+                return `${w}-${l}`;
+            },
+        },
+        {
+            label: t("lbl_l10"),
+            title: t("l10"),
+            key: "l10Points",
+            render: (team) => {
+                const w = team.l10Wins ?? 0;
+                const l = team.l10Losses ?? 0;
+                const ot = team.l10OtLosses ?? 0;
+                const ties = team.l10Ties ?? 0;
+                return hasTies ? `${w}-${l}-${ties}` : `${w}-${l}-${ot}`;
+            },
+        },
+        {
+            label: t("lbl_streak"),
+            title: t("streak"),
+            key: "streakCount",
+            render: (team) => {
+                const code = team.streakCode;
+                const count = team.streakCount;
+                if (!code || count == null) return "--";
+                return `${code}${count}`;
+            },
+        },
+    ];
+}

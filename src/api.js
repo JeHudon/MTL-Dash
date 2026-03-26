@@ -40,6 +40,18 @@ export async function getGameInfo(gameId) {
     return response.json();
 }
 
+// Récuperer standings pour une date
+export async function getStandings(date) {
+    const response = await fetch(`/api/standings/${date}`);
+    return response.json();
+}
+
+// Récuperer list saisons dispo pour standings
+export async function getStandingsSeasons() {
+    const response = await fetch(`/api/standings-season`);
+    return response.json();
+}
+
 // https://api-web.nhle.com/v1/club-schedule/MTL/month/now : schedule du mois de mars 2026 (par mois)
 // https://api-web.nhle.com/v1/standings/:date : classement par date
 // https://api-web.nhle.com/v1/standings-season : liste des saisons dispo pour les standings --> standings end mit par défaut quand change la saison

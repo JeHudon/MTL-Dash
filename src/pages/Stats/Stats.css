@@ -1,3 +1,16 @@
+/* First column */
+.stats-page .table th:first-child,
+.stats-page .table td:first-child {
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    text-align: left;
+    vertical-align: middle;
+}
+.stats-page .table th:first-child {
+    padding-left: 20px !important;
+} 
+
 /* Cellules autre que première */
 .stats-page .table.is-striped td:not(:first-child),
 .stats-page .table.is-striped th:not(:first-child) {

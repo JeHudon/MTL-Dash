@@ -3,7 +3,7 @@ import { getSeasons, getRoster } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Roster.css";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPlayersCols } from "./playerCols.js";
+import { getPlayersCols } from "./playerCols.jsx";
 import { SortableTable } from "../../components/SortableTable.jsx";
 import Dropdown from "../../components/Dropdown.jsx";
 import { useLocale } from "../../context/LocaleContext.jsx";

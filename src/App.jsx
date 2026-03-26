@@ -3,6 +3,7 @@ import Dash from "./pages/Dash/Dash.jsx";
 import Stats from "./pages/Stats/Stats.jsx";
 import Roster from "./pages/Roster/Roster.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Standings from "./pages/Standings/Standings.jsx";
 
 function App() {
     return (
@@ -18,6 +19,9 @@ function App() {
                 {/* Roster avec données prédéfinies ou non */}
                 <Route path="/roster" element={<Navigate to="/roster/20252026" replace />} />
                 <Route path="/roster/:season" element={<Roster />} />
+                {/* Standings avec données prédéfinies ou non */}
+                <Route path="/standings" element={<Navigate to={`/standings/${new Date()}/wildcard`} replace />} />
+                <Route path="/standings/:date/:format" element={<Standings />} />
 
                 {/* FR routes */}
                 {/* Dash */}
@@ -28,6 +32,9 @@ function App() {
                 {/* Roster */}
                 <Route path="/fr/roster" element={<Navigate to="/fr/roster/20252026" replace />} />
                 <Route path="/fr/roster/:season" element={<Roster />} />
+                {/* Standings */}
+                <Route path="/fr/standings" element={<Navigate to={`/fr/standings/${new Date().toLocaleDateString("fr-CA")}/wildcard`} replace />} />
+                <Route path="/fr/standings/:date/:format" element={<Standings />} />
 
                 <Route path="*" element={<Navigate to="/" replace />} />
 

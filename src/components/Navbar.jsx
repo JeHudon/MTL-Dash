@@ -29,24 +29,14 @@ function Navbar() {
     const prefix = locale === "fr" ? "/fr" : "";
 
     return (
-        <nav
-            className="navbar"
-            role="navigation"
-            aria-label="main navigation"
-        >
+        <nav className="navbar" role="navigation" aria-label="main navigation">
             {/* Logo et nom de l'équipe */}
             <div className="navbar-brand">
                 <div className="navbar-item">
-                    <img
-                        src="/Images/logo.png"
-                        alt="Logo"
-                    />
+                    <img src="/Images/logo.png" alt="Logo" />
                 </div>
                 <div className="navbar-item">
-                    <img
-                        src="/Images/text.png"
-                        alt="Logo"
-                    />
+                    <img src="/Images/text.png" alt="Logo" />
                 </div>
             </div>
 
@@ -76,7 +66,9 @@ function Navbar() {
                     </div>
 
                     <div className="navbar-item">
-                        <a className="nav-text" href="https://www.nhl.com/standings">{t("standings")}</a>
+                        <Link className="nav-text" to={`${prefix}/standings/${new Date().toLocaleDateString("fr-CA")}/wildcard`}>
+                            {t("standings")}
+                        </Link>
                     </div>
 
                     {/* Menu déroulant (désactivé pour l'instant)
@@ -94,7 +86,7 @@ function Navbar() {
 
                 {/* Boutons de langue */}
                 <div className="navbar-end">
-                    <div className="navbar-item" style={{paddingRight: "70px"}}>
+                    <div className="navbar-item" style={{ paddingRight: "70px" }}>
                         <div className="buttons">
                             <button
                                 className={`button ${locale === "en" ? "is-active" : ""}`}

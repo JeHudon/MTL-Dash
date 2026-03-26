@@ -39,15 +39,6 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
             <table className="table is-striped is-fullwidth">
                 <thead>
                     <tr>
-                        {/* Nom + photo joueur */}
-                        <SortTh
-                            label={playerLabel}
-                            title={playerLabel}
-                            sortKey={playerKey}
-                            defaultDir="asc"
-                            sortState={sortState}
-                            setSortState={setSortState}
-                        />
                         {/* Colonnes selon données */}
                         {cols.map((col) => (
                             <SortTh
@@ -66,12 +57,6 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
                 <tbody>
                     {rows.map((player) => (
                         <tr key={player[rowKey]}>
-                            <td className={sortState.key === playerKey ? "active-sort-col" : ""}>
-                                <div className="player-cell">
-                                    <img src={player.headshot} width="50" />
-                                    {player.firstName?.default} {player.lastName?.default}
-                                </div>
-                            </td>
                             {cols.map((col) => (
                                 <td
                                     key={col.label}

@@ -1,6 +1,25 @@
 // Retourne liste des colonnes nécessaire pour les statistiques d'un patineur
 export function getSkaterCols(formatTime, t) {
     return [
+                {
+            label: t("player"),
+            title: "",
+            key: "player",
+            defaultDir: "asc",
+            render: (p) => (
+                <div
+                    className="player-cell"
+                >
+                    <img
+                        src={p.headshot}
+                        style={{ width: "50px" }}
+                    />
+                    <span>
+                        {p.firstName?.default} {p.lastName?.default}
+                    </span>
+                </div>
+            ),
+        },
         {
             label: t("lbl_gamesPlayed"),
             title: t("gamesPlayed"),

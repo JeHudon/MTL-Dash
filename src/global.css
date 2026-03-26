@@ -72,19 +72,6 @@
     box-sizing: border-box;
 }
 
-/* First column */
-.table th:first-child,
-.table td:first-child {
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    text-align: left;
-    vertical-align: middle;
-}
-.table th:first-child {
-    padding-left: 20px !important;
-}
-
 /* Player cell inner div */
 .player-cell {
     display: flex;
