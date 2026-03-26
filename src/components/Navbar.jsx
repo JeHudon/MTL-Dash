@@ -10,8 +10,8 @@ function Navbar() {
 
     function switchLocale(newLocale) {
         setLocale(newLocale);
-        const isFR = locale === "fr-FR";
-        const isGoingFR = newLocale === "fr-FR";
+        const isFR = locale === "fr";
+        const isGoingFR = newLocale === "fr";
 
         let path = location.pathname;
 
@@ -26,7 +26,7 @@ function Navbar() {
         navigate(path);
     }
 
-    const prefix = locale === "fr-FR" ? "/fr" : "";
+    const prefix = locale === "fr" ? "/fr" : "";
 
     return (
         <nav
@@ -55,28 +55,28 @@ function Navbar() {
                     {/* Liens de navigation */}
                     <div className="navbar-item">
                         <Link className="nav-text" to={`${prefix}/`}>
-                            {t.home}
+                            {t("home")}
                         </Link>
                     </div>
 
                     <div className="navbar-item">
                         <Link className="nav-text" to={`${prefix}/roster/20252026`}>
-                            {t.team}
+                            {t("team")}
                         </Link>
                     </div>
 
                     <div className="navbar-item">
                         <Link className="nav-text" to={`${prefix}/stats/20252026/2`}>
-                            {t.stats}
+                            {t("stats")}
                         </Link>
                     </div>
 
                     <div className="navbar-item">
-                        <a className="nav-text">{t.schedule}</a>
+                        <a className="nav-text">{t("schedule")}</a>
                     </div>
 
                     <div className="navbar-item">
-                        <a className="nav-text">{t.standings}</a>
+                        <a className="nav-text" href="https://www.nhl.com/standings">{t("standings")}</a>
                     </div>
 
                     {/* Menu déroulant (désactivé pour l'instant)
@@ -97,14 +97,14 @@ function Navbar() {
                     <div className="navbar-item" style={{paddingRight: "70px"}}>
                         <div className="buttons">
                             <button
-                                className={`button ${locale === "en-US" ? "is-active" : ""}`}
-                                onClick={() => switchLocale("en-US")}
+                                className={`button ${locale === "en" ? "is-active" : ""}`}
+                                onClick={() => switchLocale("en")}
                             >
                                 EN
                             </button>
                             <button
-                                className={`button ${locale === "fr-FR" ? "is-active" : ""}`}
-                                onClick={() => switchLocale("fr-FR")}
+                                className={`button ${locale === "fr" ? "is-active" : ""}`}
+                                onClick={() => switchLocale("fr")}
                             >
                                 FR
                             </button>

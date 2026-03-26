@@ -26,7 +26,7 @@ function Stats() {
     const navigate = useNavigate();
 
     // Update l'url quand change de saison ou gameType
-    const prefix = locale === "fr-FR" ? "/fr" : "";
+    const prefix = locale === "fr" ? "/fr" : "";
 
     function updateFilters(newSeason, newGameType) {
         navigate(`${prefix}/stats/${newSeason}/${newGameType}`);
@@ -61,8 +61,8 @@ function Stats() {
 
     // Formatte le gameType de 2 -> Régulière
     function formatGameType(gameType) {
-        if (gameType === 2) return t.regular;
-        if (gameType === 3) return t.playoffs;
+        if (gameType === 2) return t("regular");
+        if (gameType === 3) return t("playoffs");
     }
 
     // Formatte le temps en secondes en format MM:SS
@@ -87,8 +87,8 @@ function Stats() {
     }
 
     // Variables contenant les Colonnes pour la table
-    const skaterCols = getSkaterCols(formatTime, locale);
-    const goalieCols = getGoalieCols(formatTime, locale);
+    const skaterCols = getSkaterCols(formatTime, t);
+    const goalieCols = getGoalieCols(formatTime, t);
     // Variables contient joueurs sorted selon le sort
     const sortedSkaters = sortData(stats?.skaters, skaterSort);
     const sortedGoalies = sortData(stats?.goalies, goalieSort);
@@ -131,11 +131,11 @@ function Stats() {
 
                     {/* Skaters table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Skaters">
-                        {t.skaters}
+                        {t("skaters")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
-                        playerLabel={t.player}
+                        playerLabel={t("player")}
                         cols={skaterCols}
                         rows={sortedSkaters}
                         sortState={skaterSort}
@@ -146,18 +146,17 @@ function Stats() {
 
                     {/* Goalies table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
-                        {t.goalies}
+                        {t("goalies")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
-                        playerLabel={t.player}
+                        playerLabel={t("player")}
                         cols={goalieCols}
                         rows={sortedGoalies}
                         sortState={goalieSort}
                         setSortState={setGoalieSort}
                         rowKey="playerId"
                         playerKey="lastName"
-                        
                     />
                 </div>
             </div>

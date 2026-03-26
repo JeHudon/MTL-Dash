@@ -138,7 +138,7 @@ function GameCard({ game, location }) {
                                 <span className="team-info">
                                     <span className="team-abbrev">{team.abbrev}</span>
                                     <span className="shots">
-                                        {!isFuture ? `${t.shots} : ${getSog(side)}` : ""}
+                                        {!isFuture ? `${t("shots")} : ${getSog(side)}` : ""}
                                     </span>
                                 </span>
                                 <span className={isFuture ? "record" : "score"}>

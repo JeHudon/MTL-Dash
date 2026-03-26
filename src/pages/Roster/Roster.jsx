@@ -25,7 +25,7 @@ function Roster() {
     const navigate = useNavigate();
 
     // Update l'url quand change de saison
-    const prefix = locale === "fr-FR" ? "/fr" : "";
+    const prefix = locale === "fr" ? "/fr" : "";
 
     function updateFilters(newSeason) {
         navigate(`${prefix}/roster/${newSeason}`);
@@ -86,9 +86,9 @@ function Roster() {
     }
 
     // Variables contenant les colonnes pour la table
-    const forwardCols = getPlayersCols("skater", locale);
-    const defenceCols = getPlayersCols("skater", locale);
-    const goalieCols = getPlayersCols("goalie", locale);
+    const forwardCols = getPlayersCols("skater", t);
+    const defenceCols = getPlayersCols("skater", t);
+    const goalieCols = getPlayersCols("goalie", t);
 
     // Variables contenant les joueurs sorted selon le sort
     const sortedForwards = sortData(roster?.forwards, forwardSort);
@@ -116,11 +116,11 @@ function Roster() {
 
                     {/* Forwards table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Forwards">
-                        {t.forwards}
+                        {t("forwards")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
-                        playerLabel={t.player}
+                        playerLabel={t("player")}
                         cols={forwardCols}
                         rows={sortedForwards}
                         sortState={forwardSort}
@@ -131,11 +131,11 @@ function Roster() {
 
                     {/* DMens table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Defensemen">
-                        {t.defensemen}
+                        {t("defensemen")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
-                        playerLabel={t.player}
+                        playerLabel={t("player")}
                         cols={defenceCols}
                         rows={sortedDefensemens}
                         sortState={defenceSort}
@@ -146,11 +146,11 @@ function Roster() {
 
                     {/* Goalies table */}
                     <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
-                        {t.goalies}
+                        {t("goalies")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
                     <SortableTable
-                        playerLabel={t.player}
+                        playerLabel={t("player")}
                         cols={goalieCols}
                         rows={sortedGoalies}
                         sortState={goalieSort}
