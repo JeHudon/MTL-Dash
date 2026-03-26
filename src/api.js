@@ -41,6 +41,9 @@ export async function getGameInfo(gameId) {
 }
 
 // https://api-web.nhle.com/v1/club-schedule/MTL/month/now : schedule du mois de mars 2026 (par mois)
-// https://api-web.nhle.com/v1/standings/now : classement du 6 mars 2026 (par date)
-// https://api-web.nhle.com/v1/stats/rest/en/franchise?sort=fullName&include=lastSeason.id&include=firstSeason.id : liste teams par années
+// https://api-web.nhle.com/v1/standings/:date : classement par date
+// https://api-web.nhle.com/v1/standings-season : liste des saisons dispo pour les standings --> standings end mit par défaut quand change la saison
+// https://api-web.nhle.com/v1/stats/rest/en/franchise?sort=fullName&include=lastSeason.id&include=firstSeason.id : liste teams par années pour roster et stats et pouquoi par schedule aussi
 // https://api-web.nhle.com/v1/prospects/MTL : prospects
+// https://api-web.nhle.com/v1/player/:playerId/landing : profile perso d'un joueur en params
+// https://forge-dapi.d3.nhle.com/v2/content/en-us/players?tags.slug=playerid-8476981 : bio d'un joueur pour son profile
