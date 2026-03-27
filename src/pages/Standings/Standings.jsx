@@ -29,7 +29,7 @@ function Standings() {
         (s) => date >= s.standingsStart && date <= s.standingsEnd,
     );
 
-    const teams = standings?.standings ?? [];
+    const teams = standings?.standings.reverse() ?? [];
 
     const prefix = locale === "fr" ? "/fr" : "";
 
@@ -181,51 +181,62 @@ function Standings() {
 
                 const sections = [];
 
-                Object.entries(confGroups).forEach(([confAbbrev, confTeams]) => {
-                    const confName = confTeams[0]?.conferenceName || confAbbrev;
+                Object.entries(confGroups)
+                    .sort(([, aTeams], [, bTeams]) => {
+                        const aName = aTeams[0]?.conferenceName ?? "";
+                        const bName = bTeams[0]?.conferenceName ?? "";
+                        return aName.localeCompare(bName);
+                    })
+                    .forEach(([confAbbrev, confTeams]) => {
+                        const confName = confTeams[0]?.conferenceName || confAbbrev;
 
-                    // BIG CONFERENCE TITLE
-                    if (hasConferences) {
-                        sections.push({
-                            isConferenceHeader: true,
-                            title: confName,
-                            key: `header-${confAbbrev}`,
-                        });
-                    }
-
-                    // ----- DIVISIONS -----
-                    const divGroups = {};
-                    confTeams.forEach((team) => {
-                        (divGroups[team.divisionName] ??= []).push(team);
-                    });
-
-                    Object.entries(divGroups).forEach(([divName, divTeams]) => {
-                        sections.push({
-                            title: divName,
-                            rankKey: "divisionSequence",
-                            key: `div-${confAbbrev}-${divName}`,
-                            rows: [...divTeams]
-                                .sort((a, b) => a.divisionSequence - b.divisionSequence)
-                                .slice(0, standingFormat === "wildcard" ? 3 : divTeams.length),
-                        });
-                    });
-
-                    // ----- WILDCARD ONLY IN WILDCARD VIEW -----
-                    if (standingFormat === "wildcard") {
-                        const wildcardTeams = confTeams
-                            .filter((t) => t.wildcardSequence > 0)
-                            .sort((a, b) => a.wildcardSequence - b.wildcardSequence);
-
-                        if (wildcardTeams.length) {
+                        // BIG CONFERENCE TITLE
+                        if (hasConferences) {
                             sections.push({
-                                title: t("wildcard"),
-                                rankKey: "wildcardSequence",
-                                key: `wildcard-${confAbbrev}`,
-                                rows: wildcardTeams,
+                                isConferenceHeader: true,
+                                title: confName,
+                                key: `header-${confAbbrev}`,
                             });
                         }
-                    }
-                });
+
+                        // ----- DIVISIONS -----
+                        const divGroups = {};
+                        confTeams.forEach((team) => {
+                            (divGroups[team.divisionName] ??= []).push(team);
+                        });
+
+                        Object.entries(divGroups)
+                            .sort(([aName], [bName]) => aName.localeCompare(bName))
+                            .forEach(([divName, divTeams]) => {
+                                sections.push({
+                                    title: divName,
+                                    rankKey: "divisionSequence",
+                                    key: `div-${confAbbrev}-${divName}`,
+                                    rows: [...divTeams]
+                                        .sort((a, b) => a.divisionSequence - b.divisionSequence)
+                                        .slice(
+                                            0,
+                                            standingFormat === "wildcard" ? 3 : divTeams.length,
+                                        ),
+                                });
+                            });
+
+                        // ----- WILDCARD ONLY IN WILDCARD VIEW -----
+                        if (standingFormat === "wildcard") {
+                            const wildcardTeams = confTeams
+                                .filter((t) => t.wildcardSequence > 0)
+                                .sort((a, b) => a.wildcardSequence - b.wildcardSequence);
+
+                            if (wildcardTeams.length) {
+                                sections.push({
+                                    title: t("wildcard"),
+                                    rankKey: "wildcardSequence",
+                                    key: `wildcard-${confAbbrev}`,
+                                    rows: wildcardTeams,
+                                });
+                            }
+                        }
+                    });
 
                 return { sections };
             }
