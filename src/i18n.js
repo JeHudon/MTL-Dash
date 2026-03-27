@@ -72,7 +72,7 @@ export const translations = {
 
         // --- Standings titles ---
         rank: "Rank",
-        lbl_team: "Team",
+        team: "Team",
         pointPctg: "Points %",
         regulationWins: "Regulation Wins",
         regulationPlusOtWins: "Regulation plus Overtime Wins",
@@ -273,7 +273,7 @@ export const translations = {
         lbl_birthplace: "Lieu de naissance",
 
         // --- Standings labels ---
-        lbl_rank: "Rang",
+        lbl_rank: "#",
         lbl_team: "Équipe",
         lbl_pointPctg: "P%",
         lbl_regulationWins: "VR",
