@@ -5,7 +5,7 @@ export function getStandingsCols(t, hasTies = false) {
             label: t("lbl_rank"),
             title: t("rank"),
             key: "leagueSequence",
-            render: (team) => team.leagueSequence ?? "--",
+            render: (row, rankKey) => row[rankKey] ?? "--",
         },
         {
             label: t("lbl_team"),
@@ -76,7 +76,7 @@ export function getStandingsCols(t, hasTies = false) {
             label: t("lbl_pointPctg"),
             title: t("pointPctg"),
             key: "pointPctg",
-            render: (team) => team.pointPctg?.toFixed(3) ?? "--",
+            render: (team) => team.pointPctg?.toFixed(3).slice(1) ?? "--",
         },
         {
             label: t("lbl_regulationWins"),
@@ -116,6 +116,7 @@ export function getStandingsCols(t, hasTies = false) {
             label: t("lbl_homeRecord"),
             title: t("homeRecord"),
             key: "homeWins",
+            className: "col-wide",
             render: (team) => {
                 const w = team.homeWins ?? 0;
                 const l = team.homeLosses ?? 0;
@@ -128,6 +129,7 @@ export function getStandingsCols(t, hasTies = false) {
             label: t("lbl_awayRecord"),
             title: t("awayRecord"),
             key: "roadWins",
+            className: "col-wide",
             render: (team) => {
                 const w = team.roadWins ?? 0;
                 const l = team.roadLosses ?? 0;

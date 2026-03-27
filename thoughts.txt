@@ -5,3 +5,4 @@ Postman workspace pour checker apis direct dans vscode
 Dropdown caché / invisible pour changer d'équipe dans roster, stats et pourquoi pas schedule 
 Quand clicke sur joueur dans tableau, amener dans une page personnelle avec stats de toutes les saisons
 Ajouter un onglet prospects à roster
+Ajouter un onglet Scores pour avoir toutes les games lives ?

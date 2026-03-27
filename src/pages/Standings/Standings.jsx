@@ -5,6 +5,7 @@ import "./Standings.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { SortableTable } from "../../components/SortableTable.jsx";
 import Dropdown from "../../components/Dropdown.jsx";
+import DateNavigator from "../../components/DateNavigator.jsx";
 import { useLocale } from "../../context/LocaleContext.jsx";
 import { useTranslation } from "../../i18n.js";
 import { getStandingsCols } from "./standingsCols.jsx";
@@ -14,32 +15,40 @@ function Standings() {
     const [allStandingsSeasons, setAllStandingsSeasons] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
     const [standingsSort, setStandingsSort] = useState({ key: null, dir: "desc" });
-    const [standingType, setStandingType] = useState("wildcard");
+    const [standingFormat, setStandingFormat] = useState(null);
+
+    const { format: formatParam, date: dateParam } = useParams();
 
     const { locale } = useLocale();
     const t = useTranslation(locale);
 
-    const { date: dateParam, standingType: standingTypeParam } = useParams();
     const date = dateParam ?? new Date().toLocaleDateString("fr-CA");
     const navigate = useNavigate();
 
+    const currentSeason = allStandingsSeasons.find(
+        (s) => date >= s.standingsStart && date <= s.standingsEnd,
+    );
+
+    const teams = standings?.standings ?? [];
+
     const prefix = locale === "fr" ? "/fr" : "";
 
-    function updateFilters(newDate, newType) {
-        navigate(`${prefix}/standings/${newDate}/${newType}`);
+    function updateFilters(newDate, newFormat) {
+        navigate(`${prefix}/standings/${newDate}/${newFormat}`);
+        setStandingFormat(newFormat);
         setStandingsSort({ key: null, dir: "desc" });
     }
 
-    // Récuperer toutes les saisons disponibles pour le dropdown
+    // ---------------- FETCH SEASONS ----------------
     useEffect(() => {
         const fetchSeasons = async () => {
             const data = await getStandingsSeasons();
-            setAllStandingsSeasons(data.seasons);
+            setAllStandingsSeasons(data.seasons.reverse() ?? []);
         };
         fetchSeasons();
     }, []);
 
-    // Récuperer les standings quand date change
+    // ---------------- FETCH STANDINGS ----------------
     useEffect(() => {
         const fetchStandings = async () => {
             const data = await getStandings(date);
@@ -48,201 +57,264 @@ function Standings() {
         fetchStandings();
     }, [date]);
 
-    // Formatte la saison de 20252026 -> 2025-26
+    useEffect(() => {
+        setStandingFormat(formatParam);
+    }, [formatParam]);
+
+    useEffect(() => {
+        if (!standingFormat) return;
+        if (!teams.length) return; // wait for data instead of currentSeason
+
+        if (standingFormat === "wildcard" && !hasWildcard) {
+            setStandingFormat("division");
+        } else if (standingFormat === "division" && !hasDivisions) {
+            setStandingFormat("conference");
+        } else if (standingFormat === "conference" && !hasConferences) {
+            setStandingFormat("league");
+        }
+    }, [standingFormat, teams]);
+
+    useEffect(() => {
+        if (!allStandingsSeasons.length) return;
+        if (!standingFormat) return;
+
+        const today = new Date().toLocaleDateString("fr-CA");
+
+        // Future date or after all seasons — go to latest available
+        if (date > today || date > allStandingsSeasons[0].standingsEnd) {
+            navigate(
+                `${prefix}/standings/${allStandingsSeasons[0].standingsEnd}/${standingFormat}`,
+            );
+            return;
+        }
+
+        // Date is within a known season, but after its standingsEnd — go to next season's start
+        if (!currentSeason) {
+            const nextSeason = allStandingsSeasons.find((s) => s.standingsStart > date);
+            if (nextSeason) {
+                navigate(`${prefix}/standings/${nextSeason.standingsStart}/${standingFormat}`);
+            }
+            return;
+        }
+    }, [allStandingsSeasons, date, standingFormat]);
+
     function formatSeason(season) {
         const start = season.toString().slice(0, 4);
         const end = season.toString().slice(6);
         return `${start}-${end}`;
     }
 
-    const teams = standings?.standings ?? [];
-
-    // --- Détecter quelles vues sont disponibles selon les données ---
-    const currentSeason = allStandingsSeasons.find((s) => s.standingsEnd === date);
-
     const hasConferences = currentSeason?.conferencesInUse ?? false;
     const hasDivisions = currentSeason?.divisionsInUse ?? false;
     const hasTies = currentSeason?.tiesInUse ?? false;
     const hasWildcard = currentSeason?.wildcardInUse ?? false;
 
-    const standingTypes = [
+    const standingFormats = [
         { value: "league", label: t("league") },
         ...(hasConferences ? [{ value: "conference", label: t("conference") }] : []),
         ...(hasDivisions ? [{ value: "division", label: t("division") }] : []),
         ...(hasWildcard ? [{ value: "wildcard", label: t("wildcard") }] : []),
     ];
 
-    // Si le type dans l'URL n'est pas valide pour cette saison, fallback sur "league"
-    // const standingType = standingTypes.find((s) => s.value === standingTypeParam)
-    //     ? standingTypeParam
-    //     : "league";
-
-    // --- Colonnes pour la table ---
     const cols = getStandingsCols(t, hasTies);
 
-    // --- Dériver les données selon le type de vue ---
+    const standingsTranslations = {
+        // Conferences
+        Eastern: "Est",
+        Western: "Ouest",
+        // Divisions
+        Atlantic: "Atlantique",
+        Metropolitan: "Métropolitaine",
+        Central: "Centrale",
+        Pacific: "Pacifique",
+    };
+
+    const translate = (title) =>
+        locale === "fr" ? (standingsTranslations[title] ?? title) : title;
+
+    // =====================================================
+    // VIEW DATA
+    // =====================================================
     const viewData = useMemo(() => {
         if (!teams.length) return null;
 
-        switch (standingType) {
+        switch (standingFormat) {
+            // ---------------- LEAGUE ----------------
             case "league":
                 return {
                     sections: [
                         {
                             title: t("league"),
+                            rankKey: "leagueSequence",
+                            key: "league",
                             rows: [...teams].sort((a, b) => a.leagueSequence - b.leagueSequence),
                         },
                     ],
                 };
 
+            // ---------------- CONFERENCE ----------------
             case "conference": {
-                // Grouper dynamiquement par conferenceName (fonctionne pour toutes les ères)
                 const groups = {};
                 teams.forEach((team) => {
-                    const key = team.conferenceName;
-                    if (!groups[key]) groups[key] = [];
-                    groups[key].push(team);
+                    (groups[team.conferenceName] ??= []).push(team);
                 });
+
                 return {
-                    sections: Object.keys(groups).map((name) => ({
+                    sections: Object.entries(groups).map(([name, rows]) => ({
                         title: name,
-                        rows: groups[name].sort(
-                            (a, b) => a.conferenceSequence - b.conferenceSequence,
-                        ),
+                        rankKey: "conferenceSequence",
+                        key: `conf-${name}`,
+                        rows: rows.sort((a, b) => a.conferenceSequence - b.conferenceSequence),
                     })),
                 };
             }
 
-            case "division": {
-                // Grouper dynamiquement par divisionName (fonctionne pour toutes les ères)
-                const groups = {};
-                teams.forEach((team) => {
-                    const key = team.divisionName;
-                    if (!groups[key]) groups[key] = [];
-                    groups[key].push(team);
-                });
-                return {
-                    sections: Object.keys(groups).map((name) => ({
-                        title: name,
-                        rows: groups[name].sort((a, b) => a.divisionSequence - b.divisionSequence),
-                    })),
-                };
-            }
-
+            // DIVISION + WILDCARD WITH CONFERENCE WRAPPER
+            case "division":
             case "wildcard": {
-                // Grouper par conférence, puis top 3 par division + wildcard restants
                 const confGroups = {};
+
                 teams.forEach((team) => {
-                    const key = team.conferenceAbbrev;
-                    if (!confGroups[key]) confGroups[key] = [];
-                    confGroups[key].push(team);
+                    const key = team.conferenceAbbrev || team.conferenceName || "unknown";
+                    (confGroups[key] ??= []).push(team);
                 });
 
                 const sections = [];
-                Object.keys(confGroups).forEach((confAbbrev) => {
-                    const confTeams = confGroups[confAbbrev];
 
-                    // Grouper par division dans cette conférence
+                Object.entries(confGroups).forEach(([confAbbrev, confTeams]) => {
+                    const confName = confTeams[0]?.conferenceName || confAbbrev;
+
+                    // BIG CONFERENCE TITLE
+                    if (hasConferences) {
+                        sections.push({
+                            isConferenceHeader: true,
+                            title: confName,
+                            key: `header-${confAbbrev}`,
+                        });
+                    }
+
+                    // ----- DIVISIONS -----
                     const divGroups = {};
                     confTeams.forEach((team) => {
-                        const key = team.divisionName;
-                        if (!divGroups[key]) divGroups[key] = [];
-                        divGroups[key].push(team);
+                        (divGroups[team.divisionName] ??= []).push(team);
                     });
 
-                    // Top 3 de chaque division
-                    Object.keys(divGroups).forEach((divName) => {
+                    Object.entries(divGroups).forEach(([divName, divTeams]) => {
                         sections.push({
                             title: divName,
-                            rows: divGroups[divName]
+                            rankKey: "divisionSequence",
+                            key: `div-${confAbbrev}-${divName}`,
+                            rows: [...divTeams]
                                 .sort((a, b) => a.divisionSequence - b.divisionSequence)
-                                .slice(0, 3),
+                                .slice(0, standingFormat === "wildcard" ? 3 : divTeams.length),
                         });
                     });
 
-                    // Wildcard: équipes avec wildcardSequence > 0 dans cette conférence
-                    const wildcardTeams = confTeams
-                        .filter((team) => team.wildcardSequence > 0)
-                        .sort((a, b) => a.wildcardSequence - b.wildcardSequence);
+                    // ----- WILDCARD ONLY IN WILDCARD VIEW -----
+                    if (standingFormat === "wildcard") {
+                        const wildcardTeams = confTeams
+                            .filter((t) => t.wildcardSequence > 0)
+                            .sort((a, b) => a.wildcardSequence - b.wildcardSequence);
 
-                    const confName = confTeams[0]?.conferenceName ?? confAbbrev;
-                    sections.push({
-                        title: `${t("wildcard")} — ${confName}`,
-                        rows: wildcardTeams,
-                    });
+                        if (wildcardTeams.length) {
+                            sections.push({
+                                title: t("wildcard"),
+                                rankKey: "wildcardSequence",
+                                key: `wildcard-${confAbbrev}`,
+                                rows: wildcardTeams,
+                            });
+                        }
+                    }
                 });
 
                 return { sections };
             }
 
             default:
-                return {
-                    sections: [
-                        {
-                            title: t("league"),
-                            rows: [...teams].sort((a, b) => a.leagueSequence - b.leagueSequence),
-                        },
-                    ],
-                };
+                return null;
         }
-    }, [teams, standingType]);
+    }, [teams, standingFormat]);
 
     if (!standings) return <div>{t("loading")}</div>;
 
+    // RENDER
     return (
-        <>
-            <div className="container standings-page">
-                <div className="section">
-                    <div className="columns is-left">
-                        {/* Season Selector — utilise standingsEnd comme date dans l'URL */}
-                        <Dropdown
-                            id="season"
-                            label={formatSeason(
-                                allStandingsSeasons.find((s) => s.standingsEnd === date)?.id ??
-                                    "20252026",
-                            )}
-                            options={allStandingsSeasons.map((s) => ({
-                                value: s.standingsEnd,
-                                label: formatSeason(s.id),
-                            }))}
-                            openDropdown={openDropdown}
-                            setOpenDropdown={setOpenDropdown}
-                            onSelect={(value) => updateFilters(value, standingType)}
-                        />
+        <div className="container standings-page">
+            <div className="section">
+                <div className="columns is-left">
+                    <Dropdown
+                        id="season"
+                        label={formatSeason(currentSeason?.id ?? "20252026")}
+                        options={allStandingsSeasons.map((s) => ({
+                            value: s.standingsEnd,
+                            label: formatSeason(s.id),
+                        }))}
+                        openDropdown={openDropdown}
+                        setOpenDropdown={setOpenDropdown}
+                        onSelect={(value) => updateFilters(value, standingFormat)}
+                    />
 
-                        {/* Standing Type Selector */}
-                        <Dropdown
-                            id="standingType"
-                            label={standingTypes.find((s) => s.value === standingType)?.label}
-                            options={standingTypes}
-                            openDropdown={openDropdown}
-                            setOpenDropdown={setOpenDropdown}
-                            onSelect={(value) => {
-                                updateFilters(date, value);
-                                setStandingType(value);
-                            }}
-                        />
+                    {/* <Dropdown
+                        id="standingFormat"
+                        value={standingFormat}
+                        label={standingFormats.find((s) => s.value === standingFormat)?.label}
+                        options={standingFormats}
+                        openDropdown={openDropdown}
+                        setOpenDropdown={setOpenDropdown}
+                        onSelect={(value) => updateFilters(date, value)}
+                    /> */}
+                    <DateNavigator
+                        date={date}
+                        currentSeason={currentSeason}
+                        onDateChange={(newDate) => updateFilters(newDate, standingFormat)}
+                        locale={locale}
+                    />
+                </div>
+                <div className="columns is-left" style={{ margin: "1.5em 0 1.5em 0" }}>
+                    <div className="format-tabs">
+                        {standingFormats.reverse().map(({ value }) => (
+                            <button
+                                key={value}
+                                className={`button format-tab ${standingFormat === value ? "is-active" : ""}`}
+                                onClick={() => updateFilters(date, value)}
+                            >
+                                {t(value)}
+                            </button>
+                        ))}
                     </div>
+                </div>
 
-                    {/* Tables par section — chaque section est un groupe (ligue, conférence, division, etc.) */}
-                    {viewData?.sections.map((section) => (
-                        <div key={section.title}>
-                            <div className="title" style={{ padding: "30px 0px 20px 20px" }}>
-                                {section.title}
+                {/* ================= TABLES ================= */}
+                {viewData?.sections.map((section) => {
+                    if (section.isConferenceHeader) {
+                        return (
+                            <div key={section.key} className="big-title">
+                                {translate(section.title)}
                             </div>
-                            {/* PUT TABLE HERE — rows: section.rows, cols: cols */}
+                        );
+                    }
+
+                    const isSubtitle =
+                        standingFormat === "conference" || standingFormat === "league";
+
+                    return (
+                        <div key={section.key}>
+                            <div className={isSubtitle ? "big-title" : "divisions"}>
+                                {translate(section.title)}
+                            </div>
                             <SortableTable
                                 cols={cols}
                                 rows={section.rows}
+                                rankKey={section.rankKey}
                                 sortState={standingsSort}
                                 setSortState={setStandingsSort}
-                                rowKey="teamAbbrev.default"
+                                rowKey="teamName.default"
                             />
                         </div>
-                    ))}
-                </div>
+                    );
+                })}
             </div>
-        </>
+        </div>
     );
 }
 

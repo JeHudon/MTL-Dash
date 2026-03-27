@@ -21,6 +21,12 @@ export const translations = {
         forwards: "Forwards",
         defensemen: "Defensemen",
 
+        // Standings Filters
+        league: "League",
+        conference: "Conference",
+        division: "Division",
+        wildcard: "Wild Card",
+
         // --- Shared stat titles (skaters & goalies) ---
         gamesPlayed: "Games Played",
         goals: "Goals",
@@ -158,6 +164,12 @@ export const translations = {
         goalies: "Gardiens",
         forwards: "Attaquants",
         defensemen: "Défenseurs",
+
+        // Standings Filters
+        league: "Ligue",
+        conference: "Conférence",
+        division: "Division",
+        wildcard: "Quatrième As",
 
         // --- Shared stat titles (skaters & goalies) ---
         gamesPlayed: "Matchs joués",

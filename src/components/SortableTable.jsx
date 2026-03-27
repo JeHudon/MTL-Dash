@@ -1,7 +1,11 @@
 // src/components/SortableTable.jsx
 import React from "react";
 
-export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState, }) {
+function getNestedValue(obj, path) {
+    return path.split(".").reduce((acc, key) => acc?.[key], obj);
+}
+
+export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortState, className }) {
     const isActive = sortState.key === sortKey;
     const isDesc = sortState.dir === "desc";
 
@@ -23,7 +27,7 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
     return (
         <th
             onClick={handleClick}
-            className={`${sortKey ? "sortable-th" : ""} ${isActive ? "active-sort" : ""}`}
+            className={`${sortKey ? "sortable-th" : ""} ${isActive ? "active-sort" : ""} ${className ?? ""}`}
         >
             <abbr title={title}>{label}</abbr>
             {sortKey && (
@@ -33,16 +37,27 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
     );
 }
 
-export function SortableTable({ cols, rows, sortState, setSortState, rowKey, playerKey = "id", playerLabel }) {
+export function SortableTable({ cols, rows, sortState, setSortState, rowKey, rankKey, className }) {
+    const sortedRows = React.useMemo(() => {
+        if (!sortState.key) return rows;
+        return [...rows].sort((a, b) => {
+            const aVal = getNestedValue(a, sortState.key);
+            const bVal = getNestedValue(b, sortState.key);
+            if (aVal == null) return 1;
+            if (bVal == null) return -1;
+            return sortState.dir === "desc" ? bVal - aVal : aVal - bVal;
+        });
+    }, [rows, sortState]);
+
     return (
         <div className="table-wrapper">
             <table className="table is-striped is-fullwidth">
                 <thead>
                     <tr>
-                        {/* Colonnes selon données */}
                         {cols.map((col) => (
                             <SortTh
                                 key={col.label}
+                                className={col.className}
                                 label={col.label}
                                 title={col.title}
                                 sortKey={col.key}
@@ -53,16 +68,15 @@ export function SortableTable({ cols, rows, sortState, setSortState, rowKey, pla
                         ))}
                     </tr>
                 </thead>
-                {/* Lignes selon données */}
                 <tbody>
-                    {rows.map((player) => (
-                        <tr key={player[rowKey]}>
+                    {sortedRows.map((row) => (
+                        <tr key={getNestedValue(row, rowKey)}>
                             {cols.map((col) => (
                                 <td
                                     key={col.label}
-                                    className={sortState.key === col.key ? "active-sort-col" : ""}
+                                    className={`${sortState.key === col.key ? "active-sort-col" : ""} ${className ?? ""}`}
                                 >
-                                    {col.render(player)}
+                                    {col.render(row, rankKey)}
                                 </td>
                             ))}
                         </tr>
