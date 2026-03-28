@@ -132,6 +132,27 @@ function Standings() {
     const translate = (title) =>
         locale === "fr" ? (standingsTranslations[title] ?? title) : title;
 
+    // Fonction permet sort dans bon sens
+    function sortData(data, { key, dir }) {
+        if (!data) return [];
+        return [...data].sort((a, b) => {
+            let aVal, bVal;
+            if (key === "l10Points") {
+                aVal = a.lastName?.default ?? "";
+                bVal = b.lastName?.default ?? "";
+            } else {
+                aVal = a[key] ?? "";
+                bVal = b[key] ?? "";
+            }
+            if (typeof aVal === "string") {
+                return dir === "desc" ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal);
+            }
+            return dir === "desc" ? bVal - aVal : aVal - bVal;
+        });
+    }
+
+    const sortedTeams = sortData(teams ?? [], standingsSort);
+
     // =====================================================
     // VIEW DATA
     // =====================================================
@@ -147,7 +168,9 @@ function Standings() {
                             title: t("league"),
                             rankKey: "leagueSequence",
                             key: "league",
-                            rows: [...teams].sort((a, b) => a.leagueSequence - b.leagueSequence),
+                            rows: [...sortedTeams].sort(
+                                (a, b) => a.leagueSequence - b.leagueSequence,
+                            ),
                         },
                     ],
                 };
@@ -155,7 +178,7 @@ function Standings() {
             // ---------------- CONFERENCE ----------------
             case "conference": {
                 const groups = {};
-                teams.forEach((team) => {
+                sortedTeams.forEach((team) => {
                     (groups[team.conferenceName] ??= []).push(team);
                 });
 
@@ -174,7 +197,7 @@ function Standings() {
             case "wildcard": {
                 const confGroups = {};
 
-                teams.forEach((team) => {
+                sortedTeams.forEach((team) => {
                     const key = team.conferenceAbbrev || team.conferenceName || "unknown";
                     (confGroups[key] ??= []).push(team);
                 });

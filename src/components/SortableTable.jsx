@@ -40,14 +40,25 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
 export function SortableTable({ cols, rows, sortState, setSortState, rowKey, rankKey, className }) {
     const sortedRows = React.useMemo(() => {
         if (!sortState.key) return rows;
+
+        const activeCol = cols.find((col) => col.key === sortState.key);
+
         return [...rows].sort((a, b) => {
+            // Custom sorter takes priority
+            if (activeCol?.sorter) {
+                const result = activeCol.sorter(a, b);
+                // Respect sort direction (flip if user clicked to reverse)
+                return sortState.dir === (activeCol.defaultDir ?? "desc") ? result : -result;
+            }
+
+            // Default: sort by key value
             const aVal = getNestedValue(a, sortState.key);
             const bVal = getNestedValue(b, sortState.key);
             if (aVal == null) return 1;
             if (bVal == null) return -1;
             return sortState.dir === "desc" ? bVal - aVal : aVal - bVal;
         });
-    }, [rows, sortState]);
+    }, [rows, sortState, cols]);
 
     return (
         <div className="table-wrapper">
