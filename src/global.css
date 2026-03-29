@@ -267,7 +267,7 @@ hr {
         margin-top: 128px !important; /* space for fixed navbar */
     }
     .section {
-        padding-top: 5px;
+        padding: 5px 5px 30px 5px;
     }
     .player-cell {
         gap: 2px;
@@ -369,10 +369,11 @@ hr {
     }
 
     /* bigger, nicer links */
-    .navbar-start .navbar-item,
+    .navbar-start .navbar-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
     .navbar-start .nav-text {
         padding: 12px 0;
-        border-bottom: 1px solid #f0f0f0;
         font-size: 1rem !important;
         font-weight: 600;
     }
