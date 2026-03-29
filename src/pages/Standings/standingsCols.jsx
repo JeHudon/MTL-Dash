@@ -13,13 +13,7 @@ export function getStandingsCols(t, hasTies = false) {
             key: "teamName",
             render: (team) => (
                 <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                        padding: "0 12px",
-                        height: "100%",
-                    }}
+className="team-cell"
                 >
                     <img
                         src={team.teamLogo}

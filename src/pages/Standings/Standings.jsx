@@ -275,7 +275,7 @@ function Standings() {
     return (
         <div className="container standings-page">
             <div className="section">
-                <div className="columns is-left">
+                <div className="columns is-left controllers is-mobile-stacked">
                     <Dropdown
                         id="season"
                         label={formatSeason(currentSeason?.id ?? "20252026")}
