@@ -1,9 +1,11 @@
 import { useLocale } from "../context/LocaleContext.jsx";
 import { useTranslation } from "../i18n.js";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 function Navbar() {
     const { locale, setLocale } = useLocale();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const t = useTranslation(locale);
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,6 +32,8 @@ function Navbar() {
 
     return (
         <nav className="navbar" role="navigation" aria-label="main navigation">
+            {/* Overlay — closes menu when clicked */}
+            {isMenuOpen && <div className="navbar-overlay" onClick={() => setIsMenuOpen(false)} />}
             {/* Logo et nom de l'équipe */}
             <div className="navbar-brand">
                 <div className="navbar-item">
@@ -38,55 +42,66 @@ function Navbar() {
                 <div className="navbar-item">
                     <img src="/Images/text.png" alt="Logo" />
                 </div>
+
+                {/* Burger button — only visible on mobile via Bulma */}
+                <button
+                    className={`navbar-burger ${isMenuOpen ? "is-active" : ""}`}
+                    aria-label="menu"
+                    aria-expanded={isMenuOpen}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    <span aria-hidden="true" />
+                    <span aria-hidden="true" />
+                    <span aria-hidden="true" />
+                </button>
             </div>
 
-            <div className="navbar-menu">
+            {/* Collapsible menu */}
+            <div className={`navbar-menu ${isMenuOpen ? "is-active" : ""}`}>
                 <div className="navbar-start">
-                    {/* Liens de navigation */}
                     <div className="navbar-item">
-                        <Link className="nav-text" to={`${prefix}/`}>
+                        <Link
+                            className="nav-text"
+                            to={`${prefix}/`}
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             {t("home")}
                         </Link>
                     </div>
-
                     <div className="navbar-item">
-                        <Link className="nav-text" to={`${prefix}/roster/20252026`}>
+                        <Link
+                            className="nav-text"
+                            to={`${prefix}/roster/20252026`}
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             {t("team")}
                         </Link>
                     </div>
-
                     <div className="navbar-item">
-                        <Link className="nav-text" to={`${prefix}/stats/20252026/2`}>
+                        <Link
+                            className="nav-text"
+                            to={`${prefix}/stats/20252026/2`}
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             {t("stats")}
                         </Link>
                     </div>
-
                     <div className="navbar-item">
                         <a className="nav-text">{t("schedule")}</a>
                     </div>
-
                     <div className="navbar-item">
-                        <Link className="nav-text" to={`${prefix}/standings/${new Date().toLocaleDateString("fr-CA")}/wildcard`}>
+                        <Link
+                            className="nav-text"
+                            to={`${prefix}/standings/${new Date().toLocaleDateString("fr-CA")}/wildcard`}
+                            onClick={() => setIsMenuOpen(false)}
+                        >
                             {t("standings")}
                         </Link>
                     </div>
-
-                    {/* Menu déroulant (désactivé pour l'instant)
-                    <div className="navbar-item has-dropdown is-hoverable">
-                        <a className="navbar-link"> More </a>
-                        <div className="navbar-dropdown">
-                            <a className="navbar-item"> About </a>
-                            <a className="navbar-item is-selected"> Jobs </a>
-                            <a className="navbar-item"> Contact </a>
-                            <hr className="navbar-divider" />
-                            <a className="navbar-item"> Report an issue </a>
-                        </div>
-                    </div> */}
                 </div>
 
-                {/* Boutons de langue */}
                 <div className="navbar-end">
-                    <div className="navbar-item" style={{ paddingRight: "70px" }}>
+                    <div className="navbar-item">
                         <div className="buttons">
                             <button
                                 className={`button ${locale === "en" ? "is-active" : ""}`}

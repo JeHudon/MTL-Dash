@@ -16,12 +16,12 @@
 
 .navbar-item {
     font-size: 1.4em;
-    margin: .9em;
+    margin: 0.9em;
     padding: 0;
 }
 
 .navbar-item img {
-    width: auto;
+    max-width: 100%;
     max-height: 5.5em;
     padding: 0.75em 0;
 }
@@ -34,6 +34,10 @@
 .navbar-item a:hover {
     text-decoration: underline;
     text-decoration-color: #af1e2d;
+}
+
+.navbar-end {
+    padding-right: 70px;
 }
 
 .navbar-end button {
@@ -50,6 +54,10 @@ body {
 
 .section {
     padding: 30px;
+}
+
+.controllers {
+    gap: 30px;
 }
 
 /* Shared Stats et Roster */
@@ -134,8 +142,16 @@ abbr {
 }
 
 /* Dropdown button */
+.dropdown {
+    width: 200px !important;
+}
+
+.dropdown-trigger {
+    width: 100%;
+}
+
 .custom-select-button {
-    min-width: 200px;
+    width: 100%;
     height: 45px;
     padding: 5px 10px 5px 20px;
     font-size: 1em;
@@ -143,8 +159,7 @@ abbr {
     border-radius: 6px;
     border: 1px solid #ccc;
     background: white;
-    margin-bottom: 2px;
-    margin-right: 30px;
+    margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -185,7 +200,7 @@ abbr {
 
 /* DateNavigator */
 .dateNavigator {
-    min-width: 200px;
+    width: 200px;
     height: 45px;
     font-size: 1em;
     font-weight: 700;
@@ -232,9 +247,155 @@ abbr {
     cursor: pointer;
 }
 
+/* Titre principal */
+.big-title {
+    font-weight: 650;
+    font-size: 1.5em;
+    padding: 0px 0px 10px 10px;
+    margin-bottom: 0px;
+    color: black;
+}
 
 /* ligne de séparation item */
 hr {
     margin: 0;
     padding: 0;
+}
+
+@media (max-width: 500px) {
+    .container {
+        margin-top: 128px !important; /* space for fixed navbar */
+    }
+    .section {
+        padding-top: 5px;
+    }
+    .player-cell {
+        gap: 2px;
+        padding: 0 5px;
+    }
+    .controllers {
+        flex-direction: column;
+        width: 100%;
+    }
+    .controllers .column {
+        width: 100% !important;
+    }
+    .dateNavigator {
+        width: 100% !important;
+    }
+    .dropdown {
+        width: 100% !important;
+    }
+    .navbar {
+        height: 70px; /* fixed height */
+    }
+
+    .navbar-brand {
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .navbar-brand .navbar-item {
+        padding: 0; /* remove Bulma's default padding */
+        margin: 0;
+    }
+
+    .navbar-brand .navbar-item:nth-child(1) {
+        flex: 1;
+    }
+
+    .navbar-brand .navbar-item:nth-child(2) {
+        flex: 2;
+    }
+
+    .navbar-brand .navbar-item img {
+        height: 80px;
+        width: 100%;
+        object-fit: contain;
+        padding: 0;
+        margin: 0;
+    }
+
+    .navbar-brand .navbar-burger {
+        flex: 0 0 50px; /* fixed 50px, never grows or shrinks */
+        margin-left: auto;
+        background-color: white;
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+
+    .navbar-menu {
+        position: fixed;
+        top: 128px; /* start below the navbar */
+        right: -100%;
+        width: 220px;
+        height: calc(100vh - 128px); /* full height minus navbar */
+        background: #ffffff;
+        /* box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15); */
+        flex-direction: column;
+        padding: 20px;
+        transition: right 0.3s ease;
+        z-index: 999;
+        display: flex !important;
+        padding: 20px;
+    }
+
+    .navbar-menu.is-active {
+        right: 0;
+    }
+
+    /* overlay behind drawer, but not over navbar */
+    .navbar-overlay {
+        content: "";
+        position: fixed;
+        top:128px;
+        left: 0;
+        right: 220px;
+        bottom: 0;
+        z-index: -1;
+    }
+
+    .navbar-start {
+        flex-direction: column;
+    }
+
+    /* bigger, nicer links */
+    .navbar-start .navbar-item,
+    .navbar-start .nav-text {
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 1rem !important;
+        font-weight: 600;
+    }
+    .navbar-end {
+        margin-top: auto;
+        flex-direction: column;
+        width: 100%;
+        padding-right: 0 !important; 
+    }
+
+    .navbar-end .buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .navbar-end .button {
+        width: 100% !important;
+        font-size: 0.8rem !important;
+        justify-content: center;
+        box-sizing: border-box; /* makes border included in width, not added on top */
+        margin: 0 !important;
+    }
+    /* html {
+        font-size: 10px;}; */
 }
