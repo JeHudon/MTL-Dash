@@ -97,7 +97,7 @@ function Stats() {
         <>
             <div className="container stats-page">
                 <div className="section">
-                    <div className="columns is-left">
+                    <div className="columns is-left controllers">
                         {/* Season Selector */}
                         <Dropdown
                             id="season"
@@ -130,7 +130,7 @@ function Stats() {
                     </div>
 
                     {/* Skaters table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Skaters">
+                    <div className="big-title" id="Skaters">
                         {t("skaters")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -145,7 +145,7 @@ function Stats() {
                     />
 
                     {/* Goalies table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
+                    <div className="big-title" id="Goalies">
                         {t("goalies")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}

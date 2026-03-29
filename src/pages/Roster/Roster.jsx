@@ -99,7 +99,7 @@ function Roster() {
         <>
             <div className="container roster-page">
                 <div className="section">
-                    <div className="columns is-left">
+                    <div className="columns is-left controllers">
                         {/* Season Selector */}
                         <Dropdown
                             id="season"
@@ -115,7 +115,7 @@ function Roster() {
                     </div>
 
                     {/* Forwards table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Forwards">
+                    <div className="big-title" id="Forwards">
                         {t("forwards")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -130,7 +130,7 @@ function Roster() {
                     />
 
                     {/* DMens table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Defensemen">
+                    <div className="big-title" id="Defensemen">
                         {t("defensemen")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
@@ -145,7 +145,7 @@ function Roster() {
                     />
 
                     {/* Goalies table */}
-                    <div className="title" style={{ padding: "30px 0px 20px 20px" }} id="Goalies">
+                    <div className="big-title" id="Goalies">
                         {t("goalies")}
                     </div>
                     {/* Appel component SortableTable qui me donne le layout préfait */}
