@@ -12,9 +12,7 @@ export function getStandingsCols(t, hasTies = false) {
             title: t("team"),
             key: "teamName",
             render: (team) => (
-                <div
-className="team-cell"
-                >
+                <div className="team-cell">
                     <img
                         src={team.teamLogo}
                         alt={team.teamAbbrev?.default}

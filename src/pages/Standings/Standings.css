@@ -1,30 +1,12 @@
-/* Cellules autre que première */
-.standings-page .table.is-striped td:not(:nth-child(2)),
-.standings-page .table.is-striped th:not(:nth-child(2)) {
-    width: 55px !important;
-    min-width: 55px !important;
-    max-width: 55px !important;
-    text-align: center !important;
-    vertical-align: middle;
-}
-
 .standings-page .table.is-striped td:nth-child(2),
 .standings-page .table.is-striped th:nth-child(2) {
     width: 200px !important;
     min-width: 200px !important;
     max-width: 200px !important;
     text-align: left !important;
-    vertical-align: middle;
 }
 .standings-page .table.is-striped th:nth-child(2) {
     padding-left: 20px !important;
-}
-
-.standings-page .table.is-striped td.col-wide,
-.standings-page .table.is-striped th.col-wide {
-    width: 80px !important;
-    min-width: 80px !important;
-    max-width: 80px !important;
 }
 
 .team-cell {
@@ -33,14 +15,6 @@
     gap: 10px;
     padding: 0 10px;
     height: 100%;
-}
-
-.big-title {
-    font-weight: 650;
-    font-size: 1.5em;
-    padding: 0px 0px 10px 10px;
-    margin-bottom: 0px;
-    color: black;
 }
 
 .divisions {
@@ -69,6 +43,7 @@
     cursor: pointer;
     transition: all 0.15s ease;
     margin-bottom: -1px;
+    border-radius: 0;
 }
 
 .format-tab:hover {
@@ -93,26 +68,12 @@
 }
 
 @media (max-width: 500px) {
-        .standings-page .table.is-striped td,
-    .standings-page .table.is-striped th {
-        height: 40px !important;
-    }
-    .standings-page .table.is-striped td:not(:nth-child(2)),
-    .standings-page .table.is-striped th:not(:nth-child(2)) {
-        width: 40px !important;
-        min-width: 40px !important;
-        max-width: 40px !important;
-        text-align: center !important;
-        vertical-align: middle;
-    }
-
     .standings-page .table.is-striped td:nth-child(2),
     .standings-page .table.is-striped th:nth-child(2) {
         width: 130px !important;
         min-width: 130px !important;
         max-width: 130px !important;
         text-align: left !important;
-        vertical-align: middle;
     }
     .standings-page .table.is-striped th:nth-child(2) {
         padding-left: 10px !important;
@@ -135,10 +96,5 @@
     .team-cell {
         gap: 2px;
         padding: 0 2px;
-    }
-
-    
-    .standings-page {
-        font-size: 12px; /* default is 16px */
     }
 }

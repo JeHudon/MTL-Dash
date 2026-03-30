@@ -14,7 +14,7 @@ function Standings() {
     const [standings, setStandings] = useState(null);
     const [allStandingsSeasons, setAllStandingsSeasons] = useState([]);
     const [openDropdown, setOpenDropdown] = useState(null);
-    const [standingsSort, setStandingsSort] = useState({ key: null, dir: "desc" });
+    const [standingsSort, setStandingsSort] = useState({ key: "points", dir: "desc" });
     const [standingFormat, setStandingFormat] = useState(null);
 
     const { format: formatParam, date: dateParam } = useParams();
@@ -36,7 +36,7 @@ function Standings() {
     function updateFilters(newDate, newFormat) {
         navigate(`${prefix}/standings/${newDate}/${newFormat}`);
         setStandingFormat(newFormat);
-        setStandingsSort({ key: null, dir: "desc" });
+        setStandingsSort({ key: "points", dir: "desc" });
     }
 
     // ---------------- FETCH SEASONS ----------------
@@ -288,15 +288,6 @@ function Standings() {
                         onSelect={(value) => updateFilters(value, standingFormat)}
                     />
 
-                    {/* <Dropdown
-                        id="standingFormat"
-                        value={standingFormat}
-                        label={standingFormats.find((s) => s.value === standingFormat)?.label}
-                        options={standingFormats}
-                        openDropdown={openDropdown}
-                        setOpenDropdown={setOpenDropdown}
-                        onSelect={(value) => updateFilters(date, value)}
-                    /> */}
                     <DateNavigator
                         date={date}
                         currentSeason={currentSeason}
