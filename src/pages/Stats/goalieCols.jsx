@@ -111,6 +111,7 @@ export function getGoalieCols(formatTime, t) {
             label: t("lbl_toi"),
             title: t("toi"),
             key: "timeOnIce",
+            className: "col-wide",
             render: (g) => (g.timeOnIce ? formatTime(g.timeOnIce) : "--"),
         },
     ];

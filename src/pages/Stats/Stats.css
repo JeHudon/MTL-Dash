@@ -1,22 +1,24 @@
 /* First column */
 .stats-page .table th:first-child,
 .stats-page .table td:first-child {
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    text-align: left;
-    vertical-align: middle;
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+    text-align: left !important;
 }
 .stats-page .table th:first-child {
     padding-left: 20px !important;
-} 
+}
 
-/* Cellules autre que première */
-.stats-page .table.is-striped td:not(:first-child),
-.stats-page .table.is-striped th:not(:first-child) {
-    width: 60px !important;
-    min-width: 60px !important;
-    max-width: 60px !important;
-    text-align: center !important;
-    vertical-align: middle;
+@media (max-width: 500px) {
+    .stats-page .table th:first-child,
+    .stats-page .table td:first-child {
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        text-align: left !important;
+    }
+    .stats-page .table th:first-child {
+        padding-left: 10px !important;
+    }
 }

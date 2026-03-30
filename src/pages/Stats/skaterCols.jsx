@@ -96,12 +96,14 @@ export function getSkaterCols(formatTime, t) {
             label: t("lbl_toiPerGame"),
             title: t("toiPerGame"),
             key: "avgTimeOnIcePerGame",
+            className: "col-wide",
             render: (p) => (p.avgTimeOnIcePerGame ? formatTime(p.avgTimeOnIcePerGame) : "--"),
         },
         {
             label: t("lbl_shiftsPerGame"),
             title: t("shiftsPerGame"),
             key: "avgShiftsPerGame",
+            className: "col-wide",
             render: (p) => p.avgShiftsPerGame?.toFixed(1) ?? "--",
         },
         {
