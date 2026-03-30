@@ -31,7 +31,7 @@ export function SortTh({ label, title, sortKey, defaultDir, sortState, setSortSt
         >
             <abbr title={title}>{label}</abbr>
             {sortKey && (
-                <span className="sort-icon">{isActive ? (isDesc ? " ↓" : " ↑") : " ↕"}</span>
+                <span className="sort-icon">{isActive ? (isDesc ? " ↓" : " ↑") : ""}</span>
             )}
         </th>
     );

@@ -94,6 +94,19 @@ body {
     height: 55px !important;
     padding: 0 !important;
     box-sizing: border-box;
+    width: 55px !important;
+    min-width: 55px !important;
+    max-width: 55px !important;
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+/* Wide columns */
+.table td.col-wide,
+.table th.col-wide {
+    width: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
 }
 
 /* Player cell inner div */
@@ -270,8 +283,11 @@ hr {
         padding: 5px 5px 30px 5px;
     }
     .player-cell {
-        gap: 2px;
+        gap: 5px;
         padding: 0 5px;
+    }
+    .player-cell img {
+        width: 35px !important;
     }
     .controllers {
         flex-direction: column;
@@ -357,7 +373,7 @@ hr {
     .navbar-overlay {
         content: "";
         position: fixed;
-        top:128px;
+        top: 128px;
         left: 0;
         right: 220px;
         bottom: 0;
@@ -381,17 +397,17 @@ hr {
         margin-top: auto;
         flex-direction: column;
         width: 100%;
-        padding-right: 0 !important; 
+        padding-right: 0 !important;
     }
 
     .navbar-end .buttons {
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
         gap: 8px;
     }
 
     .navbar-end .button {
-        width: 100% !important;
+        flex: 1 !important;
         font-size: 0.8rem !important;
         justify-content: center;
         box-sizing: border-box; /* makes border included in width, not added on top */
@@ -399,4 +415,31 @@ hr {
     }
     /* html {
         font-size: 10px;}; */
+    .standings-page,
+    .roster-page,
+    .stats-page,
+    .dash-page {
+        font-size: 12px; /* default is 16px */
+    }
+
+    .table.is-striped td,
+    .table.is-striped th {
+        height: 40px !important;
+    }
+
+    .table.is-striped td,
+    .table.is-striped th {
+        width: 40px !important;
+        min-width: 40px !important;
+        max-width: 40px !important;
+        text-align: center !important;
+        vertical-align: middle;
+    }
+
+    .table td.col-wide,
+    .table th.col-wide {
+        width: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+    }
 }
