@@ -1,24 +1,13 @@
-/* First column */
+/* Premières cellule */
 .roster-page .table th:first-child,
 .roster-page .table td:first-child {
-    width: 220px;
-    min-width: 220px;
-    max-width: 220px;
-    text-align: left;
-    vertical-align: middle;
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+    text-align: left !important;
 }
 .roster-page .table th:first-child {
     padding-left: 20px !important;
-} 
-
-/* Cellules autre que première */
-.roster-page .table.is-striped td:not(:first-child),
-.roster-page .table.is-striped th:not(:first-child) {
-    width: 60px !important;
-    min-width: 60px !important;
-    max-width: 60px !important;
-    text-align: center !important;
-    vertical-align: middle;
 }
 
 /* Avant dernieres cellules */
@@ -39,4 +28,45 @@
     max-width: 200px !important;
     text-align: left !important;
     padding-left: 16px !important;
+}
+
+@media (max-width: 500px) {
+    /* Premières cellule */
+    .roster-page .table th:first-child,
+    .roster-page .table td:first-child {
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        text-align: left !important;
+    }
+    .roster-page .table th:first-child {
+        padding-left: 20px !important;
+    }
+
+    /* Avant dernieres cellules */
+    .roster-page .table.is-striped td:nth-last-child(2),
+    .roster-page .table.is-striped th:nth-last-child(2) {
+        width: 90px !important;
+        min-width: 90px !important;
+        max-width: 90px !important;
+        text-align: left !important;
+        padding-left: 12px !important;
+    }
+
+    /* Dernieres cellules */
+    .roster-page .table.is-striped td:last-child,
+    .roster-page .table.is-striped th:last-child {
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        text-align: left !important;
+        padding-left: 12px !important;
+    }
+
+    .roster-page .table.is-striped td.col-wide,
+    .roster-page .table.is-striped th.col-wide {
+        width: 60px !important;
+        min-width: 60px !important;
+        max-width: 60px !important;
+    }
 }

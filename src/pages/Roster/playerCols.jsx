@@ -1,5 +1,5 @@
 // Retourne liste des colonnes nécessaire pour la liste d'équipe
-export function getPlayersCols(type, t) {
+export function getPlayersCols(type, t, season, allStandingsSeasons) {
     return [
         {
             label: t("player"),
@@ -58,6 +58,7 @@ export function getPlayersCols(type, t) {
             label: t("lbl_weight"),
             title: t("weight"),
             key: "weightInPounds",
+            className: "col-wide",
             render: (p) => `${p.weightInPounds} lbs`,
         },
         {
@@ -66,10 +67,11 @@ export function getPlayersCols(type, t) {
             key: "age",
             render: (p) => {
                 const birth = new Date(p.birthDate);
-                const today = new Date();
-                let age = today.getFullYear() - birth.getFullYear();
-                const m = today.getMonth() - birth.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+                const seasonYear = allStandingsSeasons.find((s) => s.id === Number(season));
+                const seasonEnd = seasonYear ? new Date(seasonYear.standingsEnd) : new Date();
+                let age = seasonEnd.getFullYear() - birth.getFullYear();
+                const m = seasonEnd.getMonth() - birth.getMonth();
+                if (m < 0 || (m === 0 && seasonEnd.getDate() < birth.getDate())) age--;
                 return age;
             },
         },

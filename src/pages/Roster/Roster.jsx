@@ -1,5 +1,5 @@
 // Importation des apis, commandes, components et data
-import { getSeasons, getRoster } from "../../api.js";
+import { getSeasons, getRoster, getStandingsSeasons } from "../../api.js";
 import React, { useState, useEffect } from "react";
 import "./Roster.css";
 import { useParams, useNavigate } from "react-router-dom";
@@ -16,6 +16,8 @@ function Roster() {
     const [forwardSort, setForwardSort] = useState({ key: null, dir: "desc" });
     const [defenceSort, setDefenceSort] = useState({ key: null, dir: "desc" });
     const [goalieSort, setGoalieSort] = useState({ key: null, dir: "desc" });
+
+    const [allStandingsSeasons, setAllStandingsSeasons] = useState([]);
 
     const { locale } = useLocale();
     const t = useTranslation(locale);
@@ -52,6 +54,14 @@ function Roster() {
         fetchRoster();
     }, [season]);
 
+    useEffect(() => {
+        const fetchSeasons = async () => {
+            const data = await getStandingsSeasons();
+            setAllStandingsSeasons(data.seasons.reverse() ?? []);
+        };
+        fetchSeasons();
+    }, []);
+
     // Formatte la saison de 20252026 -> 2025-26
     function formatSeason(season) {
         const start = season.toString().slice(0, 4);
@@ -86,9 +96,9 @@ function Roster() {
     }
 
     // Variables contenant les colonnes pour la table
-    const forwardCols = getPlayersCols("skater", t);
-    const defenceCols = getPlayersCols("skater", t);
-    const goalieCols = getPlayersCols("goalie", t);
+    const forwardCols = getPlayersCols("skater", t, season, allStandingsSeasons);
+    const defenceCols = getPlayersCols("skater", t, season, allStandingsSeasons);
+    const goalieCols = getPlayersCols("goalie", t, season, allStandingsSeasons);
 
     // Variables contenant les joueurs sorted selon le sort
     const sortedForwards = sortData(roster?.forwards, forwardSort);
