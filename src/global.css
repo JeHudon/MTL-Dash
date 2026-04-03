@@ -44,9 +44,9 @@
     font-size: clamp(0.75rem, 1vw, 1rem);
 }
 
-body {
-    /* background-color: #e96673; */
-}
+/* body {
+    background-color: #e96673;
+} */
 
 .container {
     background-color: white;
