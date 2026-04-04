@@ -54,8 +54,8 @@ function Dash() {
     const allGames = scoreboard?.gamesByDate?.flatMap((day) => day.games) ?? [];
 
     return (
-        <div className="is-fullwidth backsplash">
-            <img src="/Images/more1.PNG" alt="" />
+        <div className="backsplash">
+            <img src="/Images/more1.PNG" alt="" className="back" />
             <div className="scoreboard">
                 <div className="scoreboard-content">
                     <div className="section">

@@ -1,6 +1,6 @@
 .backsplash {
     position: relative;
-    margin-top: 128px;
+    overflow: hidden;   
 }
 
 /* Styles du scoreboard */
@@ -208,4 +208,44 @@
     font-size: 0.7em;
     margin-top: 2px;
     text-align: center;
+}
+
+@media (max-width: 1023px) {
+    .backsplash {
+        margin-top: 128px;
+        background-image: url("/Images/more1.PNG");
+        background-size: auto 300px;
+        background-position: center center;
+        height: 300px;
+    }
+
+    .back {
+        display: none; /* hide the img tag, use background instead */
+    }
+
+        .scoreboard-mobile {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 12px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        /* hide scrollbar */
+        scrollbar-width: none;
+    }
+
+    .scoreboard-mobile::-webkit-scrollbar {
+        display: none;
+    }
+
+    .scoreboard-mobile .game-column {
+        min-width: 65vw; /* 1.5 cards visible at once */
+        flex-shrink: 0;
+        scroll-snap-align: center;
+    }
+
+    /* .scoreboard-mobile .game-card {
+        height: auto !important;
+        width: 100%;
+    } */
 }
