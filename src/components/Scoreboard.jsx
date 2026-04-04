@@ -7,6 +7,7 @@ function Scoreboard({ games, location }) {
 	const [startIndex, setStartIndex] = useState(3);
 	const [prevIndex, setPrevIndex] = useState(3);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 1023);
+    const mobileScrollRef = useRef(null);
 
 	const cardWidth = 240;
 	const gap = 40;
@@ -27,6 +28,15 @@ function Scoreboard({ games, location }) {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
+
+    useEffect(() => {
+    if (isMobile && mobileScrollRef.current) {
+        const card = mobileScrollRef.current.children[3]; // 4th card (index 3)
+        if (card) {
+            card.scrollIntoView({ behavior: "instant", block: "nearest", inline: "center" });
+        }
+    }
+}, [isMobile]);
 
 	const gamesPerPage = availableWidth
 		? Math.min(
@@ -49,17 +59,17 @@ function Scoreboard({ games, location }) {
 	const duration = Math.min(0.3 + distance * 0.1, 1.0);
 	const step = gamesPerPage >= 4 ? gamesPerPage - 1 : gamesPerPage;
 
-	if (isMobile) {
-		return (
-			<div className="scoreboard-mobile">
-				{games.map((game, i) => (
-					<div className="game-column" key={game?.id ?? `empty-${i}`}>
-						<GameCard game={game} location={location} />
-					</div>
-				))}
-			</div>
-		);
-	} else {
+    if (isMobile) {
+        return (
+            <div className="scoreboard-mobile" ref={mobileScrollRef}>
+                {games.map((game, i) => (
+                    <div className="game-column" key={game?.id ?? `empty-${i}`}>
+                        <GameCard game={game} location={location} />
+                    </div>
+                ))}
+            </div>
+        );
+    } else {
 		return (
 			<div className="scoreboard-measure" ref={wrapperRef}>
 				<div className="scoreboard-row">
