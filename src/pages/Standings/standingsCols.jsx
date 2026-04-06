@@ -11,20 +11,28 @@ export function getStandingsCols(t, hasTies = false) {
             label: t("lbl_team"),
             title: t("team"),
             key: "teamName",
-            render: (team) => (
-                <div className="team-cell">
-                    <img
-                        src={team.teamLogo}
-                        alt={team.teamAbbrev?.default}
-                        style={{ width: "50px" }}
-                    />
-                    <span>
-                        {t("locale") === "fr"
-                            ? (team.teamName?.fr ?? team.teamName?.default)
-                            : team.teamName?.default}
-                    </span>
-                </div>
-            ),
+            render: (team) => {
+                const clinch = team.clinchIndicator;
+                return (
+                    <div className="team-cell">
+                        <img
+                            src={team.teamLogo}
+                            alt={team.teamAbbrev?.default}
+                            style={{ width: "50px" }}
+                        />
+                        <div>
+                            {t("locale") === "fr"
+                                ? (team.teamName?.fr ?? team.teamName?.default)
+                                : team.teamName?.default}
+                        </div>
+                        {clinch && (
+                            <div className={`clinched-${clinch}`}>
+                                {clinch === "x" ? "X" : clinch === "e" ? "E" : ""}
+                            </div>
+                        )}
+                    </div>
+                );
+            },
         },
         {
             label: t("lbl_gamesPlayed"),
