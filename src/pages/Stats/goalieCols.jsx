@@ -41,6 +41,12 @@ export function getGoalieCols(formatTime, t) {
             key: "losses",
             render: (g) => g.losses ?? "--",
         },
+                {
+            label: t("lbl_ties"),
+            title: t("ties"),
+            key: "ties",
+            render: (g) => g.ties ?? "--",
+        },
         {
             label: t("lbl_overtimeLosses"),
             title: t("overtimeLosses"),

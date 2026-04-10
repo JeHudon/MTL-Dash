@@ -115,7 +115,8 @@ export const translations = {
         lbl_gamesStarted: "GS",
         lbl_wins: "W",
         lbl_losses: "L",
-        lbl_overtimeLosses: "T",
+        lbl_overtimeLosses: "OTL",
+        lbl_ties: "T",
         lbl_gaa: "GAA",
         lbl_savePctg: "SV%",
         lbl_shotsAgainst: "SA",
@@ -148,7 +149,6 @@ export const translations = {
         lbl_shootoutRecord: "SO",
         lbl_l10: "L10",
         lbl_streak: "STRK",
-        lbl_ties: "T",
     },
 
     fr: {
@@ -266,7 +266,8 @@ export const translations = {
         lbl_gamesStarted: "MC",
         lbl_wins: "V",
         lbl_losses: "D",
-        lbl_overtimeLosses: "N",
+        lbl_overtimeLosses: "DP",
+        lbl_ties: "N",
         lbl_gaa: "MBA",
         lbl_savePctg: "AR%",
         lbl_shotsAgainst: "TC",
@@ -299,7 +300,6 @@ export const translations = {
         lbl_shootoutRecord: "TB",
         lbl_l10: "D10",
         lbl_streak: "SÉQ",
-        lbl_ties: "N",
     },
 };
 
