@@ -27,7 +27,7 @@ export function getStandingsCols(t, hasTies = false) {
                         </div>
                         {clinch && (
                             <div className={`clinched-${clinch}`}>
-                                {clinch === "x" ? "X" : clinch === "e" ? "E" : ""}
+                                <abbr title={t(clinch)}>{clinch.toUpperCase()}</abbr>
                             </div>
                         )}
                     </div>

@@ -25,7 +25,10 @@
     flex-shrink: 0;
 }
 
-.clinched-x {
+.clinched-x,
+.clinched-y,
+.clinched-p,
+.clinched-z {
     text-align: center;
     font-size: 0.8em;
     display: inline-block;
@@ -37,10 +40,8 @@
 }
 
 .clinched-e {
-    flex-shrink: 0;
     text-align: center;
     font-size: 0.8em;
-    width: fit-content;
     display: inline-block;
     width: 20px;
     height: 20px;

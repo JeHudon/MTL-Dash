@@ -27,6 +27,12 @@ export const translations = {
         division: "Division",
         wildcard: "Wild Card",
 
+        // Standings Clinched Indicators
+        playoffsclinched: "Playoffs Clinched",
+        divisionclinched: "Division Clinched",
+        presidentsTrophy: "Presidents' Trophy",
+        conferenceClinched: "Conference Clinched",
+
         // --- Shared stat titles (skaters & goalies) ---
         gamesPlayed: "Games Played",
         goals: "Goals",
@@ -170,6 +176,12 @@ export const translations = {
         conference: "Conférence",
         division: "Division",
         wildcard: "Quatrième As",
+
+        // Standings Clinched Indicators
+        x: "Assuré d'une place en séries",
+        y: "Champion de section",
+        p: "Trophée des Présidents",
+        z: "Champion d'association",
 
         // --- Shared stat titles (skaters & goalies) ---
         gamesPlayed: "Matchs joués",
