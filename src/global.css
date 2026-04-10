@@ -102,11 +102,11 @@
 }
 
 /* Wide columns */
-.table td.col-wide,
-.table th.col-wide {
-    width: 80px !important;
-    min-width: 80px !important;
-    max-width: 80px !important;
+.table.is-striped td.col-wide,
+.table.is-striped th.col-wide {
+    width: 70px !important;
+    min-width: 70px !important;
+    max-width: 70px !important;
 }
 
 /* Player cell inner div */
