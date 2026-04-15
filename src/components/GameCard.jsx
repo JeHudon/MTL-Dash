@@ -151,7 +151,7 @@ function GameCard({ game, location }) {
 
                 {/* Postes de TV */}
                 <p className="tv-broadcast">
-                    {isFuture &&
+                    {(isFuture || isLive) &&
                         game.tvBroadcasts
                             .filter((tv) => !location || tv.countryCode === location.country)
                             .map((tv) => tv.network)
