@@ -1,0 +1,9 @@
+services:
+  mtl-dash:
+    build: .
+    container_name: mtl-dash
+    ports:
+      - "8080:4173"
+    environment:
+      - IS_DOCKER=true
+    restart: unless-stopped

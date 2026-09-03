@@ -12,7 +12,7 @@ export async function getSchedule() {
 
 // Récuperer 3-4 dernière games et 7-8 prochaines
 export async function getScoreboard() {
-    const response = await fetch(`/api/scoreboard/mtl/now`);
+    const response = await fetch(`/api/scoreboard/MTL/now`);
     return response.json();
 }
 

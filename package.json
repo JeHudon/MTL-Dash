@@ -1,5 +1,5 @@
 {
-  "name": "react-app-4d6",
+  "name": "mtl-dash",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "npm run build && wrangler dev",
+    "preview": "npm run build && vite preview",
     "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
